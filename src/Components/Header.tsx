@@ -279,7 +279,7 @@ function Header(){
           animate={navAnimation}
           initial={"top"}
         >
-      <img src="image/logo.webp" alt="fairfield by merriott" />
+      <img src={process.env.PUBLIC_URL+'/image/logo.webp'} alt="fairfield by merriott" />
       <NavLists >
         <NavList>
           <Link to="/">소개
@@ -336,7 +336,7 @@ function Header(){
 
 {isMobile && 
 <>
-  <Logo src="image/logo_W.png" alt="fairfield by merriott" />
+  <Logo src={process.env.PUBLIC_URL+'/image/logo_W.png'} alt="fairfield by merriott" />
   <NavBtn className = "navBtn" onClick={()=>setIsNavShow(!isNavShow)}>
     {
       isNavShow ? <MdOutlineClose size={"23px"}/> : <TfiMenuAlt size={"23px"}/>

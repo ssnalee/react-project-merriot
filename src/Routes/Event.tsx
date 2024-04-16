@@ -309,7 +309,7 @@ function Event(){
       <WedCont>
         <ContTitle>
           <h3>01. 웨딩 & 특별행사</h3> 
-          <img src="/image/event/evt.avif" />       
+          <img src={process.env.PUBLIC_URL+'/image/event/evt.avif'} />       
         </ContTitle> 
         <Cont01Ul>
             <li>강남에 소재한 JW 메리어트 호텔 서울의 우아한 웨딩홀에서 로맨틱한 꿈을 현실로 이루어 보세요.</li>
@@ -329,7 +329,7 @@ function Event(){
             <h3>02. 요리 전문가와 함께하는 즐거운 미식 체험</h3>
         </ContTitle>
         <ContDetail>
-        <img src="/image/event/evt02.jpg" />
+        <img src={process.env.PUBLIC_URL+'/image/event/evt02.jpg'} />
            <p>JW 메리어트 호텔 서울의 웨딩 메뉴는 호텔 요리팀이 최상의 식재료만을 사용하여 디자인하고 만듭니다. <br />서양식과 중식 메뉴 중에서 선택할 수 있으며, 호텔 파티시에가 수작업으로 정성스럽게 만드는 프렌치 스타일의 웨딩 케이크는 진정 잊지 못할 웨딩의 낭만을 더해줍니다.</p></ContDetail>
       </WedCont>
       <WedCont>
@@ -337,7 +337,7 @@ function Event(){
             <h3>03. 전문 웨딩 플래너와 함께하는 맞춤형 웨딩 스타일링</h3>
         </ContTitle>
         <ContDetail style={{backgroundColor:'#fef5f5'}}>
-        <img src="/image/event/evt03.avif" />
+        <img src={process.env.PUBLIC_URL+'/image/event/evt03.avif'}/>
             <p>서울에서 특별한 웨딩을 계획하신다면 맞춤 웨딩 테마를 제안해 드리는 메리어트 공인 웨딩 플래너와 상담하세요. <br />선택하신 테마와 완벽하게 어울리는 오감 디자인 웨딩으로 신랑 신부는 물론 하객들도 차원이 다른 웨딩을 경험하실 수 있습니다.
                 </p></ContDetail>
       </WedCont>
@@ -347,7 +347,7 @@ function Event(){
         </ContTitle>
       
         <ContDetail>
-        <img src="/image/event/evt04.avif" />
+        <img src={process.env.PUBLIC_URL+'/image/event/evt04.avif'} />
         <p>선호하시는 분위기와 스타일을 연출할 수 있도록 이상적인 100% 맞춤식 웨딩 및 파티 상품을 제안해 드립니다.</p></ContDetail>
       </WedCont>
       <WedCont>

@@ -136,17 +136,17 @@ const CarouselSec = () => {
           <Slider {...settings}>
  
           <List02Type>
-            <img src="/image/event/jw01.jpg" />
+            <img src={process.env.PUBLIC_URL+"/image/event/jw01.jpg"} />
             <h4>그랜드 볼룸</h4>
             <p>그랜드 볼룸은 7m 높이 층고와 21m 길이 통로로 설계되어 웅장함과 동시에 감탄을 자아냅니다. 5층 전층이 그랜드 볼룸으로 프라이빗한 웨딩이 가능합니다.</p>
           </List02Type>
           <List02Type>
-            <img src="/image/event/jw02.jpg" />
+            <img src={process.env.PUBLIC_URL+"/image/event/jw02.jpg"} />
             <h4>살롱</h4>
             <p>3층에 위치한 6개의 살롱은 스몰 웨딩, 애프터 파티를 열기에 좋습니다.</p>
           </List02Type>
           <List02Type>
-            <img src="/image/event/jw03.avif" />
+            <img src={process.env.PUBLIC_URL+"/image/event/jw03.avif"} />
             <h4>브라이덜 룸</h4>
             <p>따뜻한 색상을 바탕으로 은은한 조명과 심플하면서도 우아한 인테리어가 특징인 신부대기실은 웨딩의 주인공인 신부를 더욱 돋보이게 합니다. 모니터를 통해 그랜드 볼룸의 진행 상황을 생중계하고, 대기실 내 파우더룸과 화장실을 갖추어 프라이버시와 편의성을 높였습니다.</p>
             </List02Type>

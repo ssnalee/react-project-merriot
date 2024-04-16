@@ -8,7 +8,7 @@ interface Props {
     src : string;
 }
 const SliderList = styled.div<Props>`
-  background: ${props => `url(image/event/${props.src}) center center no-repeat`};
+  background: ${props => `url(${process.env.PUBLIC_URL}/image/event/${props.src}) center center no-repeat`};
   background-size: cover;
   position: relative;
   height:500px;

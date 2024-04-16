@@ -6,6 +6,7 @@ import Header from "./Components/Header";
 import Home from "./Routes/Home";
 import Gallery from "./Routes/Gallery";
 import Event from "./Routes/Event";
+import Room from "./Routes/Room";
 // import logo from "./public/image/logo.webp";
 
 
@@ -19,6 +20,8 @@ function App() {
          <Route path= "/review" element = {<Home />} />
         </Route>
         <Route path="/gallery" element = {<Gallery />} >
+        </Route>
+        <Route path="/room" element = {<Room />} >
         </Route>
         <Route path="/event" element = {<Event />} >
         </Route>

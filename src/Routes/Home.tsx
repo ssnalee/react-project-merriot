@@ -15,7 +15,7 @@ interface Props {
 const Part = styled.div<Props>`
   width: 100%;
   height: 100vh;
-  background: ${props => `url(image/home/${props.src}) center center no-repeat`};
+  background: ${props => `url(${process.env.PUBLIC_URL}/image/home/${props.src}) center center no-repeat`};
   background-size: cover;
   position: relative;
   
