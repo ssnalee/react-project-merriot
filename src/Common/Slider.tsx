@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
@@ -55,14 +55,14 @@ const RightArrowBtn = styled(ArrowBtn)`
   right: 0;
 `;
 
-const Row = styled(motion.div)<{ gridcnt: number; totalImg : number; }>`
+const Row = styled(motion.div)<{ gridcnt: number; totalImg: number }>`
   position: absolute;
   left: 0;
   width: calc(100% * ${(props) => props.totalImg});
 
-  display : flex;
-  flex-direction : row;
-  justify-content : center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   &:after {
     content: "";
     display: block;
@@ -71,7 +71,7 @@ const Row = styled(motion.div)<{ gridcnt: number; totalImg : number; }>`
 
 const Box = styled(motion.div)<{ bgphoto: string; offset: number }>`
   display: block;
-  position : relative;
+  position: relative;
   width: calc(100% / ${(props) => props.offset});
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
@@ -88,19 +88,17 @@ const Box = styled(motion.div)<{ bgphoto: string; offset: number }>`
     transform-origin: center right;
     margin : 0;
   } */
- 
 `;
-const Img =styled.img`
+const Img = styled.img`
   width: 100%;
   object-fit: cover;
-
 `;
 const Info = styled(motion.div)`
   position: absolute;
-  bottom : 0;
+  bottom: 0;
   width: 100%;
   padding: 10px;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
   h4 {
     text-align: center;
@@ -108,21 +106,21 @@ const Info = styled(motion.div)`
   }
 `;
 const rowVariants = {
-    hidden : (right : number) => {
-        return {
-            x : right === 1 ? window.innerWidth + 5 : -window.innerWidth - 5,
-        }
-    },
-    visible : {
-        x : 0,
-        y : 0
-    },
-    exit : (right : number) => {
-        return {
-            x : right === 1 ? -window.innerWidth - 5 : window.innerWidth + 5,
-        }
-    },
-}
+  hidden: (right: number) => {
+    return {
+      x: right === 1 ? window.innerWidth + 5 : -window.innerWidth - 5,
+    };
+  },
+  visible: {
+    x: 0,
+    y: 0,
+  },
+  exit: (right: number) => {
+    return {
+      x: right === 1 ? -window.innerWidth - 5 : window.innerWidth + 5,
+    };
+  },
+};
 // const boxVariants = {
 //     normal : {
 //         scale : 1,
@@ -148,11 +146,11 @@ const rowVariants = {
 //         }
 //     },
 // }
-interface ISlider{
-    title : string;
-    listType : string;
-    mediaType : string;
-    menuName : string;
+interface ISlider {
+  title: string;
+  listType: string;
+  mediaType: string;
+  menuName: string;
 }
 // function Slider({
 
@@ -165,89 +163,78 @@ interface ISlider{
 // }
 
 // export default Slider;
-interface ISlideProps{
-    roomImages : string[];
+interface ISlideProps {
+  roomImages: string[];
 }
-function Slider({roomImages}:ISlideProps){
-    const offset = 1; //보여주고 싶은 영화의 수
-    const [isRight, setIsRight] = useState(1); // left: -1, right: 1
-    const [index,setIndex] = useState(0);
-    const [leaving, setLeaving] = useState(false);
-    const toggleLeaving = (v : boolean) => {
-        setLeaving(v);
+function Slider({ roomImages }: ISlideProps) {
+  const offset = 1; //보여주고 싶은 영화의 수
+  const [isRight, setIsRight] = useState(1); // left: -1, right: 1
+  const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+  const toggleLeaving = (v: boolean) => {
+    setLeaving(v);
+  };
+  const totalImg = roomImages.length;
+  const changeIndex = (right: number) => {
+    if (leaving) return;
+    if (roomImages) {
+      toggleLeaving(true);
+      setIsRight(right);
+      right === 1
+        ? setIndex((prev) => (prev >= totalImg ? 0 : prev + 1))
+        : setIndex((prev) => (prev === 0 ? totalImg : prev - 1));
     }
-    const totalImg = roomImages.length;
-    const changeIndex = (right : number) => {
-        if (leaving) return;
-        if (roomImages){
-            toggleLeaving(true);
-            setIsRight(right);
-            right === 1 ?
-            setIndex((prev)=>(prev >= totalImg ? 0 : prev+1)) :
-            setIndex((prev)=>(prev === 0 ? totalImg : prev-1));
-        }
+  };
+  useEffect(() => {
+    if (roomImages) {
+      const totalLength = roomImages.length;
+      const maxIndex =
+        totalLength % offset === 0
+          ? Math.floor(totalLength / offset) - 1
+          : Math.floor(totalLength / offset);
+      if (index > maxIndex) {
+        setIndex(maxIndex);
+      }
     }
-    useEffect(()=>{
-        if(roomImages){
-            const totalLength =  roomImages.length;
-            const maxIndex = 
-              totalLength % offset === 0 ? 
-              Math.floor(totalLength / offset) - 1 :
-              Math.floor(totalLength / offset);
-            if(index > maxIndex){
-                setIndex(maxIndex);
-            }
-        }
-    },[offset,roomImages,index,setIndex]);
-    // row Props
-    const rowProps = { 
-        gridcnt : offset,
-        custom : isRight,
-        variants : rowVariants,
-        initial : "hidden",
-        animate : "visible",
-        exit : "exit",
-        key : index,
-        transition : { type:"tween" ,duration : 1,}
+  }, [offset, roomImages, index, setIndex]);
+  // row Props
+  const rowProps = {
+    gridcnt: offset,
+    custom: isRight,
+    variants: rowVariants,
+    initial: "hidden",
+    animate: "visible",
+    exit: "exit",
+    key: index,
+    transition: { type: "tween", duration: 1 },
+  };
+  const onClickArrowBtn = (right: number) => {
+    if (!leaving) {
+      changeIndex(right);
     }
-    const onClickArrowBtn = (right : number) => {
-        if(!leaving){
-            changeIndex(right);
-        }
-    }
+  };
   return (
     <Wrapper>
-  
-                 <LeftArrowBtn
-                className="arrow"
-                onClick={() => onClickArrowBtn(-1)}
-            >
-                <AiOutlineLeft />
-            </LeftArrowBtn>
-            <RightArrowBtn
-                className="arrow"
-                onClick={() => onClickArrowBtn(1)}
-            >
-                <AiOutlineRight />
-            </RightArrowBtn>
-            <AnimatePresence
-                initial={false}
-                onExitComplete={() => toggleLeaving(false)}
-                custom={isRight}
-            >
-                <Row totalImg = {totalImg}
-                  {...rowProps}
-                  {...{}}             
-                >
-                        
-                {roomImages.map((img)=> (
-                 <Box bgphoto ={img} offset={offset}>   <Img src={process.env.PUBLIC_URL+'/image/room/'+ img} /></Box>
-                
-      
-                 ))}  
+      <LeftArrowBtn className="arrow" onClick={() => onClickArrowBtn(-1)}>
+        <AiOutlineLeft />
+      </LeftArrowBtn>
+      <RightArrowBtn className="arrow" onClick={() => onClickArrowBtn(1)}>
+        <AiOutlineRight />
+      </RightArrowBtn>
+      <AnimatePresence
+        initial={false}
+        onExitComplete={() => toggleLeaving(false)}
+        custom={isRight}
+      >
+        <Row totalImg={totalImg} {...rowProps} {...{}}>
+          {roomImages.map((img) => (
+            <Box bgphoto={img} offset={offset}>
+              {" "}
+              <Img src={process.env.PUBLIC_URL + "/image/room/" + img} />
+            </Box>
+          ))}
 
-
-                      {/* {data?.results
+          {/* {data?.results
             .slice(offset * index, offset * index + offset)
             .map((d) => (
               // <Box
@@ -263,13 +250,9 @@ function Slider({roomImages}:ISlideProps){
               //   </Info>
               //</Box>
             ))} */}
-                </Row>
-            </AnimatePresence>
-
-
+        </Row>
+      </AnimatePresence>
     </Wrapper>
-    
-        
   );
 }
 export default Slider;
