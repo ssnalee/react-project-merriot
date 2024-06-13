@@ -15,7 +15,7 @@
     "@types/react-star-ratings": "^2.3.3",
     "@types/styled-components": "^5.1.34",
     "apexcharts": "^3.45.1",
-    "framer-motion": "^10.17.4",
+    "framer-motion": "^10.18.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-beautiful-dnd": "^13.1.1",
@@ -61,6 +61,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-stars": "^2.2.4"
+    "@types/react-stars": "^2.2.4",
+    "react-icon": "^1.0.0"
   }
 }
