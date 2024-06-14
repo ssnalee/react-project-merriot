@@ -1,3 +1,4 @@
+
 const express = require("express"); //express 라이브러리 사용하겠다. express 문법사용
 const app = express();
 // const path = require("path");
@@ -7,6 +8,8 @@ const cors = require("cors");
 const { MongoClient } = require("mongodb");
 
 // app.use(express.static(path.join(__dirname + "/renual_meriott/build/")));
+let date = new Date();
+
 
 let db;
 const url =
@@ -30,7 +33,7 @@ new MongoClient(url)
       console.log('req',result)
        db.collection("post").insertOne({
         title : req.body.title,
-        date : req.body.date,
+        date : date,
         overview : req.body.overview,
         star : req.body.star || 1,
         username : req.body.username,
