@@ -137,9 +137,10 @@ function Review() {
     title : '',
     date : '',
     overview : '',
-    star : 1,
+    star : 0,
     username : '',
   })
+  const [isWriteAll , setIsWriteAll] = useState(false);
  
   const handleChange = (keyValue : string ,e : any) => {
     setMyValue({
@@ -155,15 +156,26 @@ function Review() {
   }
 
   const handlePost = ()=>{
-    // const today = new Date();
-    //  const today = '20240614';
-    // //console.log(today);
-    // setMyValue({
-    //   ...myValue,
-    //   date : today
-    // });
-    console.log(myValue);
-    postReviews(myValue)
+    if(myValue.username == '') {
+      setIsWriteAll(false);
+      alert('이름을 입력해주세요');
+    } else if(myValue.title == '') {
+      setIsWriteAll(false);
+      alert('제목을 입력해주세요');
+    } else if(myValue.overview == '') {
+      setIsWriteAll(false);
+      alert('내용을 입력해주세요');
+    } else if(myValue.star == 0) {
+      setIsWriteAll(false);
+      alert('별점을 선택해주세요');
+    } else {
+      setIsWriteAll(true);
+    }
+
+    if(isWriteAll){
+      postReviews(myValue)
+      alert('리뷰를 등록했습니다.');
+    }
   }
 
 
