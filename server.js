@@ -24,6 +24,19 @@ new MongoClient(url)
       let result = await db.collection("post").find().toArray();
       res.send({ list: result });
     });
+    app.post("/post", async (req, res) => {
+
+      let result = req.body;
+      console.log('req',result)
+       db.collection("post").insertOne({
+        title : req.body.title,
+        date : req.body.date,
+        overview : req.body.overview,
+        star : req.body.star || 1,
+        username : req.body.username,
+
+       });
+    });
   })
   .catch((err) => {
     console.log("err", err);
@@ -34,10 +47,7 @@ new MongoClient(url)
 //   res.sendFile(path.join(__dirname + "/renual_meriott/build/index.html"));
 // });
 
-app.get("/post", async (req, res) => {
-  console.log(req,'req')
-   db.collection("post").insertOne(req);
-});
+
 // 서버가 잘 동작하고 있는지 확인
 
 server.listen(8080, () => {

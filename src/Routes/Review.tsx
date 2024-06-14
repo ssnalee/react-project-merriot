@@ -66,7 +66,6 @@ const Date = styled.p`
 `;
 const ReviewForm = styled.form`
   padding: 30px;
-  border-top: 1px dotted #76c3f6;
   p {
     font-size: 15px;
     font-weight: 700;
@@ -136,9 +135,9 @@ function Review() {
   } = useQuery<IReviewList>("reviewList", getReviews) ?? [];
   const [myValue, setMyValue] = useState({
     title : '',
-    date : '',
+    date : '20240614',
     overview : '',
-    star : '',
+    star : 1,
     username : '',
   })
  
@@ -151,18 +150,18 @@ function Review() {
   const radioChange = (e : any) => {
     setMyValue({
       ...myValue,
-      star : e.target.value,
+      star : Number(e.target.value),
     }); 
   }
 
   const handlePost = ()=>{
     // const today = new Date();
-     const today = '20240614';
-    //console.log(today);
-    setMyValue({
-      ...myValue,
-      date : today
-    })
+    //  const today = '20240614';
+    // //console.log(today);
+    // setMyValue({
+    //   ...myValue,
+    //   date : today
+    // });
     console.log(myValue);
     postReviews(myValue)
   }

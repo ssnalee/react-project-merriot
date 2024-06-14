@@ -19,13 +19,15 @@ export const getReviews = async (): Promise<IReviewList> => {
 
 export const postReviews = async (value : any) => {
   console.log(value);
-  const response = fetch(`http://localhost:8080/post`,{
-    method : 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({value}),
-  });
+  // const response = fetch(`http://localhost:8081/post`,{
+  //   method : 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({value}),
+  // });
+  //console.log(response);
+  const response = await axios.post('http://localhost:8080/post',value);
   console.log(response);
 };
 // export interface IReviews extends Array<IReviews> {}
