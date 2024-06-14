@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
-import { useMatch, useNavigate } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import Review from "../Routes/Review";
-import { IReviews } from "./../Routes/api";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -63,10 +62,9 @@ const ModalRelative = styled.div`
 interface IModal {
   title: string;
   returnUrl?: string;
-  reviewList: IReviews[];
 }
 
-function Modal({ title, reviewList, returnUrl }: IModal) {
+function Modal({ title, returnUrl }: IModal) {
   const navigate = useNavigate();
   const onOverlayClicked = () => {
     if (returnUrl) {
@@ -86,7 +84,7 @@ function Modal({ title, reviewList, returnUrl }: IModal) {
           />
         </ModalRelative>
 
-        {title == "review" ? <Review reviewList={reviewList} /> : null}
+        {title == "review" ? <Review /> : null}
       </ModalBox>
     </Overlay>
   );
