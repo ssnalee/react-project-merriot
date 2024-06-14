@@ -1,5 +1,5 @@
-import { Link, useNavigate, useMatch, useLocation } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   AnimatePresence,
@@ -9,12 +9,11 @@ import {
 } from "framer-motion";
 import ReactStars from "react-stars";
 import Modal from "./Modal";
-import { getReviews, IReviews } from "./../Routes/api";
+import { getReviews, IReviewList } from "./../Routes/api";
 import { useMediaQuery } from "react-responsive";
 import { MdOutlineClose } from "react-icons/md";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { useQuery } from "react-query";
-import axios from "axios";
 
 const SIZE_PC = 1200;
 const SIZE_TABLET_H = 1024;
@@ -165,7 +164,6 @@ const navVariants = {
   scroll: {
     backgroundColor: "rgba(0,0,0,0.6)",
     backdropFilter: "blur(5px)",
-    // backgroundColor:"rgba(0,0,0,1)",
     color: "#fff",
   },
 };
@@ -192,11 +190,11 @@ function Header() {
   const mobileAnimation = useAnimation();
   const { scrollY } = useScroll();
   const reviewMatch = useMatch(`/review`);
-  const { data: reviewList, isLoading } = useQuery<IReviews>(
-    "reviewList",
-    getReviews
-  );
-  console.log(reviewList);
+  let { data: reviewList, isLoading } =
+    useQuery<IReviewList>("reviewList", getReviews) ?? [];
+  let star = 0;
+  reviewList?.list.map((review) => (star += review.star));
+  let voteValue = star / (reviewList?.list.length ?? 0);
   const isPC = useMediaQuery({
     query: `(min-width:${SIZE_TABLET_V}px)`,
   });
@@ -225,19 +223,10 @@ function Header() {
     navigate("/review");
   };
 
-  // let voteValue = Number(
-  //   (
-  //     reviewList
-  //       .map((review) => review.star)
-  //       .reduce((prev, curr) => prev + curr, 0) / reviewList.length
-  //   ).toFixed(1)
-  // );
-  let voteValue = 5;
-
   return (
     <>
       {isLoading && <p>loading...</p>}
-      {isPC && (
+      {isPC && isLoading == false && (
         <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
           <img
             src={process.env.PUBLIC_URL + "/image/logo.webp"}
@@ -297,14 +286,14 @@ function Header() {
             </span>
             {reviewMatch ? (
               <AnimatePresence>
-                {/* <Modal title="review" reviewList={reviewList} /> */}
+                <Modal title="review" />
               </AnimatePresence>
             ) : null}
           </Review>
         </Nav>
       )}
 
-      {isMobile && (
+      {isMobile && isLoading == false && (
         <>
           <Logo
             src={process.env.PUBLIC_URL + "/image/logo_W.png"}
@@ -378,7 +367,7 @@ function Header() {
               </span>
               {reviewMatch ? (
                 <AnimatePresence>
-                  {/* <Modal title="review" reviewList={reviewList} /> */}
+                  <Modal title="review" />
                 </AnimatePresence>
               ) : null}
             </Review>

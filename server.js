@@ -34,16 +34,10 @@ new MongoClient(url)
 //   res.sendFile(path.join(__dirname + "/renual_meriott/build/index.html"));
 // });
 
-// app.get("/post", async (req, res) => {
-//   db.collection("post").insertOne({
-//     title: "Best service you can get at a 5 star hotel!",
-//     content:
-//       "I've stayed at quite a bit of Marriott hotels all over the US. But experiences at JW Marriott Seoul is by far the best. First, losing the passport abroad is a frightening experience while traveling with my family. But the hotel staff, Kyrie Cho worked swiftly and effectively to find it in one of the three possible shops that could've had the passport and delivered it in the fastest possible way to the airport in time for our travel back to the US. This is not at all expected and I was really shocked at the level of dedication and service JW Marriott provided. I have returned to Korea and extended my stay at this hotel due to this extremely positive, heart-warming experience. I recommend highly to check out this hotel.",
-//     date: "20240101",
-//     name: "Eunice Park",
-//     score: 4,
-//   });
-// });
+app.get("/post", async (req, res) => {
+  console.log(req,'req')
+   db.collection("post").insertOne(req);
+});
 // 서버가 잘 동작하고 있는지 확인
 
 server.listen(8080, () => {
