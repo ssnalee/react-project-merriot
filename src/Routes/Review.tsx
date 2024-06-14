@@ -135,7 +135,7 @@ function Review() {
   } = useQuery<IReviewList>("reviewList", getReviews) ?? [];
   const [myValue, setMyValue] = useState({
     title : '',
-    date : '20240614',
+    date : '',
     overview : '',
     star : 1,
     username : '',
@@ -194,7 +194,7 @@ function Review() {
                   />
                   <span className="starValue">({review.star}점)</span>
                 </Star>
-                <Date>{`${review.date.slice(0, 4)}.${review.date.slice(4,6)}.${review.date.slice(6, 8)}`}</Date>
+                <Date>{review.date.replaceAll('-','.').slice(0,10)}</Date>
               </UpData>
               <Title>{review.title}</Title>
             </Up>
