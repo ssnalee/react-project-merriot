@@ -73,7 +73,7 @@ function Modal({ title, setIsModal, isModal }: IModal) {
   useEffect(()=>{
     modalMount();
   },[]);
-  const onOverlayClicked = () => {
+  function onOverlayClicked(){
     setIsModal(false);
     modalUnMount();
   };
@@ -81,7 +81,7 @@ function Modal({ title, setIsModal, isModal }: IModal) {
 
   return (
     <Overlay animate={{ opacity: 1 }} exit={{ opacity: 0}} onClick={onOverlayClicked}>
-      <ModalBox initial={{ scale: 1 }} animate={{}} exit={{ scale: 0 }}>
+      <ModalBox initial={{ scale: 1 }} animate={{}} exit={{ scale: 0 }} onClick={e=>e.stopPropagation()}>
         <ModalRelative>
           <AiOutlineClose
             onClick={onOverlayClicked}
@@ -90,7 +90,7 @@ function Modal({ title, setIsModal, isModal }: IModal) {
           />
         </ModalRelative>
 
-        {title == "review" ? <Review /> : null}
+        {title == "review" ? <Review onClick={onOverlayClicked}/> : null}
       </ModalBox>
     </Overlay>
   );
