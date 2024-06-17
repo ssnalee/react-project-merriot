@@ -127,7 +127,7 @@ const ReviewBox = styled.div`
     justify-content: flex-end;
   }
 `;
-function Review() {
+function Review( props : {onClick : ()=>void}) {
   let {
     data: reviewList,
     isLoading,
@@ -171,13 +171,12 @@ function Review() {
     } else {
       setIsWriteAll(true);
     }
-
     if(isWriteAll){
       postReviews(myValue)
       alert('리뷰를 등록했습니다.');
+      props.onClick();
     }
   }
-
 
   return (
     <ReviewModal>

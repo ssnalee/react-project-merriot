@@ -109,6 +109,9 @@ const NavList = styled.li`
   padding: 5px;
   box-sizing: border-box;
   position: relative;
+  &:hover{
+    color:#00e5ff;
+  }
   /* 테블릿 가로 */
   @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -
     1}px) {
@@ -147,7 +150,9 @@ const Review = styled.div`
     margin-left:5px;
     cursor: pointer;
   }
-  
+  span.reviewBtn:hover{
+    color:#00e5ff;
+  }
   /* 모바일 가로 & 테블릿 세로 */
   @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
     1}px) {
@@ -158,6 +163,16 @@ const Review = styled.div`
   @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
     height: 100px;
     margin: 0 auto;
+  }
+`;
+const LoginBox = styled.div`
+  margin-left : 15px;
+  p{
+    background-color : #7b7dd9;
+    color : #fff;
+    padding:8px;
+    border-radius : 5px;
+    cursor:pointer;
   }
 `;
 
@@ -189,14 +204,16 @@ function Header() {
   const eventMatch = useMatch("/event");
   const navAnimation = useAnimation();
   const mobileAnimation = useAnimation();
+  const navigate = useNavigate();
   const { scrollY } = useScroll();
   const [isModal, setIsModal] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   console.log(isModal)
   let { data: reviewList, isLoading } =
     useQuery<IReviewList>("reviewList", getReviews) ?? [];
   let star = 0;
   reviewList?.list.map((review) => (star += review.star));
-  let voteValue = star / (reviewList?.list.length ?? 0);
+  let voteValue = Number((star / (reviewList?.list.length ?? 0)).toFixed(2));
   const isPC = useMediaQuery({
     query: `(min-width:${SIZE_TABLET_V}px)`,
   });
@@ -224,17 +241,22 @@ function Header() {
   const reviewClick = () => {
     setIsModal(true);
   };
+  const goLogin = () => {
+    navigate("/login");
+  }
 
   return (
     <>
       {isLoading && <p>loading...</p>}
       {isPC && isLoading == false && (
         <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
-          <img
+          <NavLists>
+            <NavList>
+            <img
             src={process.env.PUBLIC_URL + "/image/logo.webp"}
             alt="fairfield by merriott"
           />
-          <NavLists>
+            </NavList>
             <NavList>
               <Link to="/">
                 소개
@@ -253,16 +275,6 @@ function Header() {
                 {eventMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
             </NavList>
-                          <NavList>
-                <Link to="">
-                  객실
-                </Link>
-              </NavList>
-              <NavList>
-                <Link to="">
-                  익스피어린스
-                </Link>
-              </NavList>
           </NavLists>
           <Review >
             <ReactStars
@@ -285,7 +297,11 @@ function Header() {
                 <Modal title="review" setIsModal={setIsModal} isModal={isModal}/>
               </AnimatePresence>
             ) : null}
+            <LoginBox>
+            { isLogin ? (<p onClick={goLogin}>로그아웃</p>) : (<p onClick={goLogin}>로그인</p>)}
+            </LoginBox>
           </Review>
+
         </Nav>
       )}
 
@@ -326,16 +342,6 @@ function Header() {
                 <Link to="/event">
                   웨딩
                   {eventMatch ? <ListBar /> : null}
-                </Link>
-              </NavList>
-              <NavList>
-                <Link to="">
-                  객실
-                </Link>
-              </NavList>
-              <NavList>
-                <Link to="">
-                  익스피어린스
                 </Link>
               </NavList>
             </NavLists>
