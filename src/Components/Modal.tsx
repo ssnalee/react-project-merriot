@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import Review from "../Routes/Review";
+import { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -16,7 +18,7 @@ const Overlay = styled(motion.div)`
 `;
 const ModalBox = styled(motion.div)`
   position: fixed;
-  top: 50%;
+  top: 200px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -28,26 +30,23 @@ const ModalBox = styled(motion.div)`
   background-color: ${(props) => props.theme.white.lighter};
   color: ${(props) => props.theme.black.lighter};
   z-index: 1000;
+  /* 모바일 세로 */
+  @media only all and (min-height: 1000px){
+    top: 26%;
+  }
 `;
 const ModalRelative = styled.div`
-  /* position: relative; */
   position: fixed;
-  /* top: 20%;
-   right: 26%; */
   width: 50%;
   min-width: 600px;
   color: #899;
   z-index: 103;
   clear: both;
-
+  
   .closeModal {
-    /* position: fixed; */
-    /* top: 20%;
-   right: 26%; */
     width: 30px;
     height: 30px;
     color: #899;
-    z-index: 103;
     float: right;
     margin-right: 10px;
     margin-top: 10px;
@@ -61,20 +60,27 @@ const ModalRelative = styled.div`
 
 interface IModal {
   title: string;
-  returnUrl?: string;
+  setIsModal : Function;
+  isModal : boolean;
 }
-
-function Modal({ title, returnUrl }: IModal) {
-  const navigate = useNavigate();
+function modalMount(){
+  document.body.style.overflow = 'hidden';
+}
+function modalUnMount(){
+  document.body.style.overflow = 'unset';
+}
+function Modal({ title, setIsModal, isModal }: IModal) {
+  useEffect(()=>{
+    modalMount();
+  },[]);
   const onOverlayClicked = () => {
-    if (returnUrl) {
-      navigate(returnUrl);
-    } else {
-      navigate(-1);
-    }
+    setIsModal(false);
+    modalUnMount();
   };
+  if (!isModal) return null;
+
   return (
-    <Overlay animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <Overlay animate={{ opacity: 1 }} exit={{ opacity: 0}} onClick={onOverlayClicked}>
       <ModalBox initial={{ scale: 1 }} animate={{}} exit={{ scale: 0 }}>
         <ModalRelative>
           <AiOutlineClose
@@ -89,5 +95,8 @@ function Modal({ title, returnUrl }: IModal) {
     </Overlay>
   );
 }
-
+Modal.propTypes = {
+  isModal : PropTypes.bool.isRequired,
+  setIsModal : PropTypes.func.isRequired,
+}
 export default Modal;

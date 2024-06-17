@@ -14,6 +14,8 @@ import { useMediaQuery } from "react-responsive";
 import { MdOutlineClose } from "react-icons/md";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { useQuery } from "react-query";
+import { PiCursorClickLight } from "react-icons/pi";
+
 
 const SIZE_PC = 1200;
 const SIZE_TABLET_H = 1024;
@@ -140,9 +142,12 @@ const Review = styled.div`
     margin-top: -4px;
     margin-right: 5px;
   }
-  .ratingValue {
+  span.reviewBtn{
+    display: inline-block;
+    margin-left:5px;
     cursor: pointer;
   }
+  
   /* 모바일 가로 & 테블릿 세로 */
   @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
     1}px) {
@@ -179,17 +184,14 @@ const mobileNavVariants = {
 };
 
 function Header() {
-  const navigate = useNavigate();
   const homeMatch = useMatch("/");
-  const galleryMatch = useMatch("/gallery");
   const roomMatch = useMatch("/room");
-  const diningMatch = useMatch("/dining");
-  const experienceMatch = useMatch("/experience");
   const eventMatch = useMatch("/event");
   const navAnimation = useAnimation();
   const mobileAnimation = useAnimation();
   const { scrollY } = useScroll();
-  const reviewMatch = useMatch(`/review`);
+  const [isModal, setIsModal] = useState(false);
+  console.log(isModal)
   let { data: reviewList, isLoading } =
     useQuery<IReviewList>("reviewList", getReviews) ?? [];
   let star = 0;
@@ -220,7 +222,7 @@ function Header() {
     });
   }, [scrollY, navAnimation]);
   const reviewClick = () => {
-    navigate("/review");
+    setIsModal(true);
   };
 
   return (
@@ -240,27 +242,9 @@ function Header() {
               </Link>
             </NavList>
             <NavList>
-              <Link to="/gallery">
-                갤러리
-                {galleryMatch ? <ListBar layoutId="listBar" /> : null}
-              </Link>
-            </NavList>
-            <NavList>
               <Link to="/room">
                 객실 & 스위트
                 {roomMatch ? <ListBar layoutId="listBar" /> : null}
-              </Link>
-            </NavList>
-            <NavList>
-              <Link to="/dining">
-                다이닝
-                {diningMatch ? <ListBar layoutId="listBar" /> : null}
-              </Link>
-            </NavList>
-            <NavList>
-              <Link to="/experience">
-                익스피리언스
-                {experienceMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
             </NavList>
             <NavList>
@@ -269,8 +253,18 @@ function Header() {
                 {eventMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
             </NavList>
+                          <NavList>
+                <Link to="">
+                  객실
+                </Link>
+              </NavList>
+              <NavList>
+                <Link to="">
+                  익스피어린스
+                </Link>
+              </NavList>
           </NavLists>
-          <Review>
+          <Review >
             <ReactStars
               count={5}
               value={voteValue}
@@ -281,12 +275,14 @@ function Header() {
               edit={false}
               className="rating"
             />
-            <span className="ratingValue" onClick={reviewClick}>
-              ({voteValue}점)
+            <span className="ratingValue">
+            ({voteValue}점)
             </span>
-            {reviewMatch ? (
+            <span className="reviewBtn" onClick={reviewClick}>리뷰 보러가기</span>
+            <PiCursorClickLight size={20}/>
+            {isModal ? (
               <AnimatePresence>
-                <Modal title="review" />
+                <Modal title="review" setIsModal={setIsModal} isModal={isModal}/>
               </AnimatePresence>
             ) : null}
           </Review>
@@ -321,33 +317,25 @@ function Header() {
                 </Link>
               </NavList>
               <NavList>
-                <Link to="/gallery">
-                  갤러리
-                  {galleryMatch ? <ListBar /> : null}
-                </Link>
-              </NavList>
-              <NavList>
                 <Link to="/room">
                   객실 & 스위트
                   {roomMatch ? <ListBar /> : null}
                 </Link>
               </NavList>
               <NavList>
-                <Link to="/dining">
-                  다이닝
-                  {diningMatch ? <ListBar /> : null}
-                </Link>
-              </NavList>
-              <NavList>
-                <Link to="/experience">
-                  익스피리언스
-                  {experienceMatch ? <ListBar /> : null}
-                </Link>
-              </NavList>
-              <NavList>
                 <Link to="/event">
                   웨딩
                   {eventMatch ? <ListBar /> : null}
+                </Link>
+              </NavList>
+              <NavList>
+                <Link to="">
+                  객실
+                </Link>
+              </NavList>
+              <NavList>
+                <Link to="">
+                  익스피어린스
                 </Link>
               </NavList>
             </NavLists>
@@ -363,11 +351,11 @@ function Header() {
                 className="rating"
               />
               <span className="ratingValue" onClick={reviewClick}>
-                ({voteValue}점)
+                ({voteValue}점) 리뷰 보러가기
               </span>
-              {reviewMatch ? (
+              {isModal ? (
                 <AnimatePresence>
-                  <Modal title="review" />
+                  <Modal title="review" setIsModal={setIsModal} isModal={isModal}/>
                 </AnimatePresence>
               ) : null}
             </Review>
