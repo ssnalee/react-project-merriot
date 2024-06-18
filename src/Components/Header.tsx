@@ -207,7 +207,7 @@ function Header() {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
   const [isModal, setIsModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  let isLogin = false;
   let { data: reviewList, isLoading } =
     useQuery<IReviewList>("reviewList", getReviews) ?? [];
   let star = 0;
@@ -219,7 +219,9 @@ function Header() {
   const isMobile = useMediaQuery({
     query: `(max-width:${SIZE_TABLET_V - 1}px)`,
   });
-
+  if(localStorage.getItem('userId')) isLogin = true;
+  else isLogin = false;
+  
   const [isNavShow, setIsNavShow] = useState(false);
   useEffect(() => {
     if (isNavShow == true) {
@@ -240,7 +242,10 @@ function Header() {
   const reviewClick = () => {
     setIsModal(true);
   };
-  const goLogin = () => {
+  const goLogin = (num : number) => {
+    if(num === 0){
+      localStorage.removeItem('userId');
+    }
     navigate("/login");
   }
 
@@ -297,7 +302,7 @@ function Header() {
               </AnimatePresence>
             ) : null}
             <LoginBox>
-            { isLogin ? (<p onClick={goLogin}>로그아웃</p>) : (<p onClick={goLogin}>로그인</p>)}
+            { isLogin ? (<p onClick={()=>goLogin(0)}>로그아웃</p>) : (<p onClick={()=>goLogin(1)}>로그인</p>)}
             </LoginBox>
           </Review>
 
@@ -360,7 +365,7 @@ function Header() {
               </span>
               {isModal ? (
                 <AnimatePresence>
-                  <Modal title="review" setIsModal={setIsModal} isModal={isModal}/>
+                  <Modal title="review" setIsModal={setIsModal} isModal={isModal} />
                 </AnimatePresence>
               ) : null}
             </Review>

@@ -71,4 +71,6 @@ button.summitBtn{
   width:80px;
   margin-left:20px;
 }
-
+input:disabled{
+  background-color: transparent;
+}
