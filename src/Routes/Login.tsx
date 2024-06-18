@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { IUser, getUserInfo, postUserInfo } from "./api";
+import { IUser, login, postUserInfo } from "./api";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { idCheck } from "./api";
@@ -150,6 +150,7 @@ const LoginLabel = styled.label`
 `;
 
 function Login() {
+  //input focus 위함
   const inputRef = useRef<HTMLInputElement>(null);
   const inputPwRef = useRef<HTMLInputElement>(null);
   //flag 0 = 회원가입 탭 flag 1 = 로그인 탭
@@ -158,13 +159,18 @@ function Login() {
   //아이디 정규식
   const pattern = new RegExp("^[a-zA-Z][0-9a-zA-Z]{5,11}$");
   const pwPattern = new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]{6,16}$");
-  let { data: userData } = useQuery<IUser>("userData", getUserInfo) ?? [];
   //회원가입 userInfo
   const [myUserInfo, setMyUserInfo] = useState({
     userId: "",
     userPw: "",
     userPw2: "",
   });
+  const [loginInfo, setLoginInfo] = useState({
+    userId: "",
+    userPw: "",
+  });
+  // const { loginId, loginPw } = loginInfo;
+  //아이디 중복체크값
   const [dbIdCheck, setDbIdCheck] = useState(false);
   const navigate = useNavigate();
   const { userId, userPw, userPw2 } = myUserInfo;
@@ -180,6 +186,12 @@ function Login() {
       [e.target.name]: e.target.value.trim(),
     });
   };
+  const loginChange = (e : any) => {
+    setLoginInfo({
+      ...loginInfo,
+      [e.target.name]: e.target.value.trim(),
+    })
+  }
   //아이디 중복 체크 버튼 클릭시
   const handleIdCheck = async () => {
     if (userId == "") {
@@ -237,10 +249,15 @@ function Login() {
   };
 
   //로그인 확인 버튼 클릭시
-  const goToLogin = () => {
-    localStorage.setItem("userId", userId);
-    localStorage.setItem("userPw", userPw);
-    navigate("/");
+  const goToLogin = async () => {
+    let result = await login(loginInfo);
+    if(result.code === 1){
+      localStorage.setItem("userId", loginInfo.userId);
+      navigate("/");
+    }else{
+      alert('아이디와 비밀번호를 다시 입력해주세요.');
+    }
+
   };
   return (
     <LoginWrap className="loginWrap">
@@ -325,16 +342,16 @@ function Login() {
         <Row>
           <LoginBox>
             <InputBox className="int-area">
-              <LoginInput type="text" name="userId" id="userId" required />
-              <LoginLabel htmlFor="userId">아이디</LoginLabel>
+              <LoginInput type="text" name="userId" id="userId" value={loginInfo.userId}  onChange={(e) => loginChange(e)} required />
+              <LoginLabel htmlFor="userId" >아이디</LoginLabel>
             </InputBox>
             <InputBox className="int-area">
-              <LoginInput type="password" name="userPw" id="userPw" required />
-              <LoginLabel htmlFor="userPw">비밀번호</LoginLabel>
+              <LoginInput type="password" name="userPw" id="userPw" value={loginInfo.userPw}  onChange={(e) => loginChange(e)} required />
+              <LoginLabel htmlFor="userPw" >비밀번호</LoginLabel>
             </InputBox>
           </LoginBox>
 
-          <button id="Lbtn" type="submit" className="summitBtn">
+          <button id="Lbtn" type="submit" className="summitBtn" onClick={()=>goToLogin()}>
             확인
           </button>
         </Row>

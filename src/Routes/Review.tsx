@@ -129,7 +129,7 @@ const ReviewBox = styled.div`
     justify-content: flex-end;   
   }
 `;
-function Review( props : {onClick : ()=>void}) {
+function Review( props : {onClick : ()=>void,}) {
   let {
     data: reviewList,
     isLoading,
@@ -140,10 +140,13 @@ function Review( props : {onClick : ()=>void}) {
     date : '',
     overview : '',
     star : 0,
-    username : '',
+    username : localStorage.getItem('userId') || '',
   })
+  let isLogin = false;
+  if(localStorage.getItem('userId')) isLogin=true;
+  else isLogin = false;
   const [isWriteAll , setIsWriteAll] = useState(false);
- 
+
   const handleChange = (keyValue : string ,e : any) => {
     setMyValue({
       ...myValue,
@@ -215,14 +218,14 @@ function Review( props : {onClick : ()=>void}) {
           </Li>
         ))}
       </Ul>
-      <ReviewForm>
+      {isLogin && <ReviewForm>
         <p>
           <MdOutlineRateReview size="30px" color="#0099ff" />
           리뷰 등록
         </p>
         <ReviewBox>
           <label htmlFor="userName">이름</label>
-          <input type="text" id="userName" onChange={(e)=>handleChange('username',e)}></input>
+          <input type="text" id="userName" value={myValue.username} disabled></input>
           <div className="userStar">
             <label>별점 :</label>
             <span>1점</span>
@@ -253,7 +256,8 @@ function Review( props : {onClick : ()=>void}) {
         <ReviewBox className="summitBtn">
           <button type="button" onClick={handlePost}>확인</button>
         </ReviewBox>
-      </ReviewForm>
+      </ReviewForm>}
+      
     </ReviewModal>
   );
 }
