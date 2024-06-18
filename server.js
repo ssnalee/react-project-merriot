@@ -1,15 +1,14 @@
-
 const express = require("express"); //express 라이브러리 사용하겠다. express 문법사용
 const app = express();
 // const path = require("path");
 const server = require("http").createServer(app);
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const { MongoClient } = require("mongodb");
 
 // app.use(express.static(path.join(__dirname + "/renual_meriott/build/")));
 let date = new Date();
-
 
 let db;
 const url =
@@ -25,7 +24,7 @@ new MongoClient(url)
     app.use(express.json());
     app.use(cors());
 
-    //review 가져오기 
+    //review 가져오기
     app.get("/api", async (req, res) => {
       let result = await db.collection("post").find().toArray();
       res.send({ list: result });
@@ -33,44 +32,63 @@ new MongoClient(url)
     //review 저장하기
     app.post("/post", async (req, res) => {
       let result = req.body;
-      console.log('req',result)
-       db.collection("post").insertOne({
-        title : req.body.title,
-        date : date,
-        overview : req.body.overview,
-        star : req.body.star || 1,
-        username : req.body.username,
-
-       });
+      console.log("req", result);
+      db.collection("post").insertOne({
+        title: req.body.title,
+        date: date,
+        overview: req.body.overview,
+        star: req.body.star || 1,
+        username: req.body.username,
+      });
     });
-    
+
     //아이디 중복체크
     app.post("/idCheck", async (req, res, next) => {
-      let result = await db.collection("userInfo").countDocuments({userId : req.body.userId});
-      if(result === 0){
-        res.send({isCheck : 1})
-      }else{
-        res.send({isCheck :- 1});
+      let result = await db
+        .collection("userInfo")
+        .countDocuments({ userId: req.body.userId });
+      if (result === 0) {
+        res.send({ isCheck: 1 });
+      } else {
+        res.send({ isCheck: -1 });
       }
     });
 
     //유저정보 가져오기
-    app.get("/getUserInfo", async (req, res) => {
-      let result = await db.collection("userInfo").find().toArray();
-      res.send({ list : result });
+    app.post("/login", async (req, res, next) => {
+      let result = await db
+        .collection("userInfo")
+        .findOne({ userId: req.body.userId });
+
+      if (result) {
+        let db_pw = result.userPw;
+        bcrypt.compare(req.body.userPw, db_pw, (error, result) => {
+          console.log("res", result);
+          if (result) res.send({ code: 1 });
+          else res.send({ code: 0 });
+        });
+      } else {
+        res.send({ code: 0 });
+      }
     });
 
     //유저정보 저장
     app.post("/postUserInfo", async (req, res) => {
-      let result = req.body;
-       console.log('req',result)
-       db.collection("userInfo").insertOne({
-        userId : req.body.userId,
-        userPw : req.body.userPw,
-       });
+      const saltRounds = 10;
+      bcrypt.hash(req.body.userPw, saltRounds, (err, hash) => {
+        try {
+          let userPw = hash;
+          db.collection("userInfo").insertOne({
+            userId: req.body.userId,
+            userPw: userPw,
+          });
+        } catch {
+          console.log("err: " + err);
+        }
+      });
     });
 
-  // 
+    //
   })
   .catch((err) => {
     console.log("err", err);
@@ -80,7 +98,6 @@ new MongoClient(url)
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname + "/renual_meriott/build/index.html"));
 // });
-
 
 // 서버가 잘 동작하고 있는지 확인
 

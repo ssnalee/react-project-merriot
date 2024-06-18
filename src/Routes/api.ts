@@ -27,20 +27,20 @@ export const postReviews = async (value : any) => {
   console.log(response);
 };
 
-export const idCheck = async (myUserInfo : any) => {
+export const idCheck = async (value : any) => {
   const headers = {"Content-Type":"application/json"};
-  const response = await axios.post('http://localhost:8080/idCheck',myUserInfo,{headers:headers});
+  const response = await axios.post('http://localhost:8080/idCheck',value,{headers:headers});
   return response.data;
 };
 
-export const getUserInfo = async (): Promise<IUser> => {
-  const response = await axios.get(`http://localhost:8080/getUserInfo`);
+export const login = async (value : any) => {
+  console.log(value);
+  const headers = {"Content-Type":"application/json"};
+  const response = await axios.post(`http://localhost:8080/login`,value,{headers:headers});
   return response.data;
 };
 
 export const postUserInfo = async (value : any) => {
-  console.log(value);
   const response = await axios.post('http://localhost:8080/postUserInfo',value);
-  console.log(response);
 };
 

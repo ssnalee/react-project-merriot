@@ -15,7 +15,7 @@ module.exports = function (app) {
     })
   );
   app.use(
-    createProxyMiddleware("/getUserInfo", {
+    createProxyMiddleware("/login", {
       target: "http://localhost:8080/",
       changeOrigin: true,
     })
