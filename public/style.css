@@ -1,3 +1,4 @@
+/* slice slider custom */
 .slick-prev:before,
 .slick-next:before {
   color: #f76868 !important;
@@ -9,7 +10,21 @@
 .slick-dots li button:before {
   font-size: 10px !important;
 }
+/* .carousel.cusotom .slick-slide.slick-active.slick-center.slick-current{
+  margin : 10px;
+} */
 
+/* .carousel.cusotom  .slick-slider {
+  margin:0 -10px;
+}
+.carousel.cusotom  .slick-slide {
+  padding:10px;
+  margin-right:10px;
+  margin-left:10px;
+} */
+.carousel.cusotom .slick-list {margin: 0 -5px;}
+.carousel.cusotom .slick-slide>div {padding: 0 5px;}
+/* login page */
 .int-area label.warning {
   color: red !important;
   animation: warning 0.3s ease;

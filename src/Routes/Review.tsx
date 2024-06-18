@@ -147,13 +147,13 @@ function Review( props : {onClick : ()=>void,}) {
   else isLogin = false;
   const [isWriteAll , setIsWriteAll] = useState(false);
 
-  const handleChange = (keyValue : string ,e : any) => {
+  const handleChange = (keyValue : string ,e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMyValue({
       ...myValue,
       [keyValue] : e.target.value,
     });
   }
-  const radioChange = (e : any) => {
+  const radioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     setMyValue({
       ...myValue,
       star : Number(e.target.value),

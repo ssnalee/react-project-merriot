@@ -128,7 +128,7 @@ const InputBox = styled.div`
 const LoginInput = styled.input`
   width: 100%;
   padding: 20px 10px 10px;
-  background-color: transparent;
+  background-color: transparent !important;
   border: none;
   border-bottom: 1px solid #999;
   font-size: 18px;
@@ -180,13 +180,14 @@ function Login() {
   const isVaild = userId !== "" && userPw !== "" && isSame && dbIdCheck;
 
   //계정 생성 입력시
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMyUserInfo({
       ...myUserInfo,
       [e.target.name]: e.target.value.trim(),
     });
   };
-  const loginChange = (e : any) => {
+  //로그인 폼 입력시
+  const loginChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     setLoginInfo({
       ...loginInfo,
       [e.target.name]: e.target.value.trim(),
@@ -202,7 +203,6 @@ function Login() {
       inputRef.current?.focus();
     }else {
       let result = await idCheck(myUserInfo);
-      console.log(result);
       if (result.isCheck == 1) {
         alert("사용가능한 아이디입니다.");
         setDbIdCheck(true);
@@ -223,10 +223,8 @@ function Login() {
     inputRef.current?.focus();
   };
   //계정 생성 버튼클릭시
-  const handlePostUser = (e: any) => {
+  const handlePostUser = (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) => {
     e.preventDefault();
-    console.log("myUserInfo", myUserInfo);
-
     if(!pwPattern.test(myUserInfo.userPw)){
       console.log(myUserInfo.userPw);
       alert('영문,숫자,특수문자로 이루어진 6 ~ 16글자 이내로 입력해주세요.')

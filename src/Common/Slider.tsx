@@ -167,7 +167,7 @@ interface ISlideProps {
   roomImages: string[];
 }
 function Slider({ roomImages }: ISlideProps) {
-  const offset = 1; //보여주고 싶은 영화의 수
+  const offset = 1; //보여주고 싶은 컨텐츠 수
   const [isRight, setIsRight] = useState(1); // left: -1, right: 1
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
