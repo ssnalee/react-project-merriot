@@ -208,7 +208,6 @@ function Header() {
   const { scrollY } = useScroll();
   const [isModal, setIsModal] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  console.log(isModal)
   let { data: reviewList, isLoading } =
     useQuery<IReviewList>("reviewList", getReviews) ?? [];
   let star = 0;

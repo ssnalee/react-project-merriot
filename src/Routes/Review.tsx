@@ -89,7 +89,7 @@ const ReviewBox = styled.div`
     margin-right: 10px;
   }
   input[type="radio"] {
-    margin-right: 15px;
+    margin: 0 15px 0 3px;
   }
   input[type="text"] {
     width: 120px;
@@ -120,11 +120,13 @@ const ReviewBox = styled.div`
     background-color: #0099ff;
     color: #fff;
     border-radius: 8px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor :pointer;
   }
   &.summitBtn {
     display: flex;
     width: 96%;
-    justify-content: flex-end;
+    justify-content: flex-end;   
   }
 `;
 function Review( props : {onClick : ()=>void}) {
