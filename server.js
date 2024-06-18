@@ -20,15 +20,18 @@ new MongoClient(url)
     //mongodb 연결
     db = client.db("forum"); // forum 데이터베이스에 연결
     console.log("탔다");
+
     //서버 띄우기 , 서버띄울포트입력
     app.use(express.json());
     app.use(cors());
+
+    //review 가져오기 
     app.get("/api", async (req, res) => {
       let result = await db.collection("post").find().toArray();
       res.send({ list: result });
     });
+    //review 저장하기
     app.post("/post", async (req, res) => {
-
       let result = req.body;
       console.log('req',result)
        db.collection("post").insertOne({
@@ -40,6 +43,34 @@ new MongoClient(url)
 
        });
     });
+    
+    //아이디 중복체크
+    app.post("/idCheck", async (req, res, next) => {
+      let result = await db.collection("userInfo").countDocuments({userId : req.body.userId});
+      if(result === 0){
+        res.send({isCheck : 1})
+      }else{
+        res.send({isCheck :- 1});
+      }
+    });
+
+    //유저정보 가져오기
+    app.get("/getUserInfo", async (req, res) => {
+      let result = await db.collection("userInfo").find().toArray();
+      res.send({ list : result });
+    });
+
+    //유저정보 저장
+    app.post("/postUserInfo", async (req, res) => {
+      let result = req.body;
+       console.log('req',result)
+       db.collection("userInfo").insertOne({
+        userId : req.body.userId,
+        userPw : req.body.userPw,
+       });
+    });
+
+  // 
   })
   .catch((err) => {
     console.log("err", err);

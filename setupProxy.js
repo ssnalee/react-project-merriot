@@ -10,8 +10,25 @@ module.exports = function (app) {
   );
   app.use(
     createProxyMiddleware("/post", {
-      target: "http://localhost:8081/",
-
+      target: "http://localhost:8080/",
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    createProxyMiddleware("/getUserInfo", {
+      target: "http://localhost:8080/",
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    createProxyMiddleware("/postUserInfo", {
+      target: "http://localhost:8080/",
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    createProxyMiddleware("/idCheck", {
+      target: "http://localhost:8080/",
       changeOrigin: true,
     })
   );
