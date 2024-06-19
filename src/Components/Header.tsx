@@ -252,6 +252,7 @@ function Header() {
   }, [scrollY, navAnimation]);
   const reviewClick = () => {
     setIsModal(true);
+    setIsNavShow(false);
   };
   const goLogin = (num : number) => {
     if(num === 0){

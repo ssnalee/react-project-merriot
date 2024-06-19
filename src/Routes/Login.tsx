@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { login, postUserInfo } from "./api";
 import { useNavigate } from "react-router-dom";
 import { idCheck } from "./api";
-
+import { IoIosCheckmarkCircle ,IoIosCloseCircle } from "react-icons/io";
 const SIZE_MOBILE = 480;
 
 const Warning = keyframes`
@@ -117,12 +117,18 @@ const SignBox = styled.div`
     font-weight: 700;
     bottom: 0px;
     left: 170px;
+    display:flex;
+    align-items : center;
+    justify-content : center;
   }
   span.warning_txt {
     color: red;
     font-weight: 700;
     bottom: 0px;
     left: 170px;
+    display:flex;
+    align-items : center;
+    justify-content : center;
   }
   /* 모바일 세로 */
   @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
@@ -320,7 +326,7 @@ function Login() {
   const navigate = useNavigate();
   const { userId, userPw, userPw2 } = myUserInfo;
   //비밀번호와 비밀번호확인 같은지 확인
-  const isSame = userPw === userPw2;
+  const isSame = userPw2 !== "" && userPw === userPw2;
   //계정생성 다 입력했는지 확인
   const isVaild = userId !== "" && userPw !== "" && isSame && dbIdCheck;
 
@@ -468,9 +474,11 @@ function Login() {
               {userPw2 == ""
                 ? ""
                 : isSame
-                ? " 비밀번호가 일치합니다."
-                : "비밀번호가 일치하지않습니다."}
+                ? " 비밀번호가 일치합니다"
+                : "비밀번호가 일치하지않습니다"}
+                {userPw2 == "" ? "" : (isSame ? <IoIosCheckmarkCircle size="17px"/> : <IoIosCloseCircle size="17px"/>)}
             </span>
+           
           </SignBox>
           <SignBox>
             <button
