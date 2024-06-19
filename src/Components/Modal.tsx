@@ -44,8 +44,7 @@ const ModalBox = styled(motion.div)`
     min-height:600px;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
       min-width:400px;
       height:80%;
       top:10%;
@@ -79,8 +78,7 @@ const ModalRelative = styled.div`
     }
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
       min-width:400px;
   }
   /* 모바일 세로 */

@@ -18,7 +18,6 @@ new MongoClient(url)
   .then((client) => {
     //mongodb 연결
     db = client.db("forum"); // forum 데이터베이스에 연결
-    console.log("탔다");
 
     //서버 띄우기 , 서버띄울포트입력
     app.use(express.json());
@@ -32,7 +31,7 @@ new MongoClient(url)
     //review 저장하기
     app.post("/post", async (req, res) => {
       let result = req.body;
-      console.log("req", result);
+      // console.log("req", result);
       db.collection("post").insertOne({
         title: req.body.title,
         date: date,
@@ -63,7 +62,7 @@ new MongoClient(url)
       if (result) {
         let db_pw = result.userPw;
         bcrypt.compare(req.body.userPw, db_pw, (error, result) => {
-          console.log("res", result);
+          // console.log("res", result);
           if (result) res.send({ code: 1 });
           else res.send({ code: 0 });
         });

@@ -29,8 +29,7 @@ const TitlePos = styled.div`
     top: 26%;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     min-width: 400px;
   }
   /* 모바일 세로 */
@@ -188,8 +187,7 @@ const ReviewBox = styled.div`
     justify-content: flex-end;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     flex-wrap: wrap;
     .userStar {
       margin: 10px 0;
