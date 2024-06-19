@@ -74,6 +74,18 @@ a {
 ::-webkit-scrollbar {
   display: none;
 }
+button{
+  border:none;
+  background-color:transparent;
+}
+input{
+  border:none;
+  outline:none;
+}
+input:disabled{
+  background-color: transparent;
+}
+
 `;
 
 const client = new QueryClient();

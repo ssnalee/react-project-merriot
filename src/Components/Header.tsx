@@ -174,6 +174,17 @@ const LoginBox = styled.div`
     border-radius : 5px;
     cursor:pointer;
   }
+  &.mobile{
+    margin: 0 0 20px 0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    p{
+      width:90%;
+      text-align : center;
+    }
+  }
 `;
 
 const navVariants = {
@@ -241,12 +252,14 @@ function Header() {
   }, [scrollY, navAnimation]);
   const reviewClick = () => {
     setIsModal(true);
+    setIsNavShow(false);
   };
   const goLogin = (num : number) => {
     if(num === 0){
       localStorage.removeItem('userId');
     }
     navigate("/login");
+    setIsNavShow(false);
   }
 
   return (
@@ -361,7 +374,7 @@ function Header() {
                 className="rating"
               />
               <span className="ratingValue" onClick={reviewClick}>
-                ({voteValue}점) 리뷰 보러가기
+                ({voteValue}점) <br />리뷰 보러가기
               </span>
               {isModal ? (
                 <AnimatePresence>
@@ -369,6 +382,9 @@ function Header() {
                 </AnimatePresence>
               ) : null}
             </Review>
+            <LoginBox className="mobile">
+            { isLogin ? (<p onClick={()=>goLogin(0)}>로그아웃</p>) : (<p onClick={()=>goLogin(1)}>로그인</p>)}
+            </LoginBox>
           </MobileNav>
         </>
       )}

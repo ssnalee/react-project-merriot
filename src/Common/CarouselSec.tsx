@@ -20,7 +20,6 @@ const List02Type = styled.div`
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
-  margin : 0 10px 30px;
   img{
     width: 100%;
   }
@@ -132,7 +131,7 @@ const CarouselSec = () => {
     ]
   }
   return (
-      <div className="carousel">
+      <div className="carousel cusotom">
           <Slider {...settings}>
  
           <List02Type>
