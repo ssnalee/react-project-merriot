@@ -254,7 +254,9 @@ const NoLoginBox = styled.div`
   text-align: center;
   margin: 20px auto;
   p {
-    width:220px;
+    display :flex;
+    align-items : center;
+    width:240px;
     margin: 20px auto;
     padding-bottom:5px;
     border-bottom: 3px dotted #bed5ff;
@@ -283,7 +285,7 @@ function Review(props: { onClick: () => void }) {
   const [isWriteAll, setIsWriteAll] = useState(false);
   let isLogin = false;
   let [currentPage, setCurrentPage] = useState(1); // 현재 페이지번호
-  let postsPerPage = 2; //한 페이지에 보여줄 게시글 갯수
+  let postsPerPage = 3; //한 페이지에 보여줄 게시글 갯수
   let totalPages = 0;
 
   if (reviewList !== undefined) {
@@ -422,7 +424,7 @@ function Review(props: { onClick: () => void }) {
       </Pagination>
       {!isLogin && (
         <NoLoginBox>
-          <p>로그인하고 리뷰를 작성하세요.</p>
+          <p><MdOutlineRateReview size="25px"/>로그인하고 리뷰를 작성하세요.</p>
           <button onClick={goLogin}>로그인 하러가기</button>
         </NoLoginBox>
       )}
