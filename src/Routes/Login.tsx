@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { IUser, login, postUserInfo } from "./api";
+import { login, postUserInfo } from "./api";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
 import { idCheck } from "./api";
+
+const SIZE_MOBILE = 480;
+
 const Warning = keyframes`
     0% {
       transform: translateX(-8px);
@@ -26,38 +28,89 @@ const LoginWrap = styled.div`
   justify-content: center;
   flex-direction: column;
   background: linear-gradient(to left, #c9eafd, #eff5ff);
+  button {
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.2);
+  }
 `;
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom : 60px;
+  margin-bottom: 60px;
+  button.summitBtn {
+    border-radius: 8px;
+    background-color: #80aff7;
+    color: #fff;
+    height: 120px;
+    width: 80px;
+    margin-left: 20px;
+    top: -100px;
+  }
+  button.summitBtn:hover {
+    background-color: #3887ff;
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    margin-bottom: 30px;
+    flex-direction:column;
+    button.summitBtn {
+      height: 45px;
+      width: 300px;
+      margin: 30px 0 0;
+    }
+  }
 `;
 const LoginBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
 `;
 const SignBox = styled.div`
   position: relative;
   width: 400px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   margin-bottom: 25px;
-  button.summitBtn {
-    top: -100px;
+  button.clearBtn {
+    height: 50px;
+    width: 55px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #4389f5;
+  }
+  button.idCheck {
+    background-color: #80aff7;
+    color: #fff;
+    height: 50px;
+    width: 70px;
+    margin: 0 10px;
+    border-radius: 8px;
+  }
+  button.addUserBtn {
+    width: 400px;
+    height: 50px;
+    background-color: #1871ff;
+    color: #fff;
+    margin: 0 0 20px;
+    border-radius: 8px;
+  }
+  button.addUserBtn:disabled {
+    background-color: #999;
+    cursor: auto;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.4);
   }
   span {
     position: absolute;
     left: 140px;
     bottom: -20px;
     font-size: 12px;
-    z-index : 1;
-    color:#5d5c5c;
+    z-index: 1;
+    color: #5d5c5c;
   }
   span.success_txt {
     color: #007bff;
@@ -71,11 +124,49 @@ const SignBox = styled.div`
     bottom: 0px;
     left: 170px;
   }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    width: 300px;
+    flex-wrap:wrap;
+    &:first-child{
+      margin-bottom: 0;
+    }
+    button.clearBtn {
+      height: 45px;
+      width: 55px;
+      margin: 25px 0 10px;
+    }
+    button.idCheck {
+      height: 45px;
+      width: 70px;
+      margin: 25px 10px 10px 0;
+    }
+    button.addUserBtn {
+      width: 300px;
+      height: 45px;
+      margin: 0;
+    }
+    span {
+      top:50px;
+      left:60px;
+    }
+    span.id_rule{
+      left:120px;
+    }
+    span.success_txt {
+      left: 110px;
+      top: -15px;
+    }
+    span.warning_txt {
+      left: 110px;
+      top: -15px;
+    }
+  }
 `;
 const SignInput = styled.input`
   width: 300px;
   padding: 20px 10px 15px;
-  background-color: #fff;
+  background-color: #fff !important;
   border-radius: 6px;
   border: none;
   font-size: 15px;
@@ -87,6 +178,18 @@ const SignInput = styled.input`
   &:focus {
     border: 2px solid #4389f5;
   }
+  &:disabled {
+    background-color: #fff;
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    width: 200px;
+    padding: 15px 10px;
+    font-size: 13px;
+    &[type="text"] {
+      width: 200px;
+    }
+  }
 `;
 const SignLabel = styled.label`
   display: inline-block;
@@ -94,6 +197,12 @@ const SignLabel = styled.label`
   text-align: right;
   padding-right: 20px;
   font-size: 15px;
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    width: 100px;
+    font-size: 12px;
+    padding-right: 10px;
+  }
 `;
 const InputBox = styled.div`
   &.int-area {
@@ -103,6 +212,17 @@ const InputBox = styled.div`
   }
   &.int-area:first-child {
     margin-top: 0;
+  }
+  &.int-area label.warning {
+    color: red !important;
+    animation: warning 0.3s ease;
+    animation-iteration-count: 3;
+  }
+  &.int-area input:focus + label,
+  &.int-area input:valid + label {
+    top: -2px;
+    font-size: 13px;
+    color: #0066ff;
   }
   &.btn-area {
     display: flex;
@@ -124,6 +244,21 @@ const InputBox = styled.div`
     background-color: #80aff7;
     color: #fff;
   }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    &.int-area {
+      width: 250px;
+      margin-top: 10px;
+    }
+    &.btn-area {
+      width:300px;
+    }
+    &.btn-area button {
+      font-size: 17px;
+      box-shadow: 2px 1px 1px 1px rgba(0, 0, 255, 0.2);
+      height: 45px;
+    }
+  }
 `;
 const LoginInput = styled.input`
   width: 100%;
@@ -133,6 +268,10 @@ const LoginInput = styled.input`
   border-bottom: 1px solid #999;
   font-size: 18px;
   outline: none;
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    font-size: 15px;
+  }
 `;
 
 const LoginLabel = styled.label`
@@ -147,6 +286,10 @@ const LoginLabel = styled.label`
     animation: ${Warning} 0.3s ease;
     animation-iteration-count: 3;
   }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    font-size: 15px;
+  }
 `;
 
 function Login() {
@@ -158,7 +301,9 @@ function Login() {
 
   //아이디 정규식
   const pattern = new RegExp("^[a-zA-Z][0-9a-zA-Z]{5,11}$");
-  const pwPattern = new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]{6,16}$");
+  const pwPattern = new RegExp(
+    "^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]{6,16}$"
+  );
   //회원가입 userInfo
   const [myUserInfo, setMyUserInfo] = useState({
     userId: "",
@@ -187,21 +332,21 @@ function Login() {
     });
   };
   //로그인 폼 입력시
-  const loginChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const loginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginInfo({
       ...loginInfo,
       [e.target.name]: e.target.value.trim(),
-    })
-  }
+    });
+  };
   //아이디 중복 체크 버튼 클릭시
   const handleIdCheck = async () => {
     if (userId == "") {
       alert("아이디를 입력하세요.");
       inputRef.current?.focus();
-    } else if(!pattern.test(userId)){
-      alert('영문 + 숫자로 6 ~12글자 이내로 입력해주세요.')
+    } else if (!pattern.test(userId)) {
+      alert("영문 + 숫자로 6 ~12글자 이내로 입력해주세요.");
       inputRef.current?.focus();
-    }else {
+    } else {
       let result = await idCheck(myUserInfo);
       if (result.isCheck == 1) {
         alert("사용가능한 아이디입니다.");
@@ -223,18 +368,20 @@ function Login() {
     inputRef.current?.focus();
   };
   //계정 생성 버튼클릭시
-  const handlePostUser = (e: React.MouseEvent<HTMLButtonElement,MouseEvent>) => {
+  const handlePostUser = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    if(!pwPattern.test(myUserInfo.userPw)){
+    if (!pwPattern.test(myUserInfo.userPw)) {
       console.log(myUserInfo.userPw);
-      alert('영문,숫자,특수문자로 이루어진 6 ~ 16글자 이내로 입력해주세요.')
+      alert("영문,숫자,특수문자로 이루어진 6 ~ 16글자 이내로 입력해주세요.");
       setMyUserInfo({
         ...myUserInfo,
         userPw: "",
         userPw2: "",
       });
       inputPwRef.current?.focus();
-    }else{
+    } else {
       postUserInfo(myUserInfo);
       alert("아이디를 생성했습니다.");
       setFlag(1);
@@ -249,16 +396,17 @@ function Login() {
   //로그인 확인 버튼 클릭시
   const goToLogin = async () => {
     let result = await login(loginInfo);
-    if(result.code === 1){
+    if (result.code === 1) {
       localStorage.setItem("userId", loginInfo.userId);
       navigate("/");
-    }else{
-      alert('아이디와 비밀번호를 다시 입력해주세요.');
+    } else if (loginInfo.userId == "" || loginInfo.userPw == "") {
+      alert("아이디와 비밀번호를 입력해주세요.");
+    } else {
+      alert("아이디와 비밀번호를 다시 입력해주세요.");
     }
-
   };
   return (
-    <LoginWrap className="loginWrap">
+    <LoginWrap>
       {flag === 0 ? (
         <>
           <SignBox>
@@ -272,7 +420,7 @@ function Login() {
               disabled={dbIdCheck}
               ref={inputRef}
             />
-            <span>영문, 숫자로 이루어진 6 ~ 12자</span>
+            <span className="id_rule">영문, 숫자로 이루어진 6 ~ 12자</span>
             <button
               type="button"
               className="idCheck"
@@ -298,7 +446,6 @@ function Login() {
               placeholder=""
               onChange={(e) => handleChange(e)}
               ref={inputPwRef}
-
             />
             <span>영문, 숫자, 특수문자로 이루어진 8 ~ 12자</span>
           </SignBox>
@@ -340,16 +487,35 @@ function Login() {
         <Row>
           <LoginBox>
             <InputBox className="int-area">
-              <LoginInput type="text" name="userId" id="userId" value={loginInfo.userId}  onChange={(e) => loginChange(e)} required />
-              <LoginLabel htmlFor="userId" >아이디</LoginLabel>
+              <LoginInput
+                type="text"
+                name="userId"
+                id="userId"
+                value={loginInfo.userId}
+                onChange={(e) => loginChange(e)}
+                required
+              />
+              <LoginLabel htmlFor="userId">아이디</LoginLabel>
             </InputBox>
             <InputBox className="int-area">
-              <LoginInput type="password" name="userPw" id="userPw" value={loginInfo.userPw}  onChange={(e) => loginChange(e)} required />
-              <LoginLabel htmlFor="userPw" >비밀번호</LoginLabel>
+              <LoginInput
+                type="password"
+                name="userPw"
+                id="userPw"
+                value={loginInfo.userPw}
+                onChange={(e) => loginChange(e)}
+                required
+              />
+              <LoginLabel htmlFor="userPw">비밀번호</LoginLabel>
             </InputBox>
           </LoginBox>
 
-          <button id="Lbtn" type="submit" className="summitBtn" onClick={()=>goToLogin()}>
+          <button
+            id="Lbtn"
+            type="submit"
+            className="summitBtn"
+            onClick={() => goToLogin()}
+          >
             확인
           </button>
         </Row>

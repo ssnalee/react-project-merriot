@@ -5,6 +5,12 @@ import { useQuery } from "react-query";
 import { MdOutlineRateReview } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
 import { useState } from "react";
+
+const SIZE_PC = 1200;
+const SIZE_TABLET_H = 1024;
+const SIZE_TABLET_V = 768;
+const SIZE_MOBILE = 480;
+
 const ReviewModal = styled.div`
   padding: 0;
 `;
@@ -16,6 +22,20 @@ const TitlePos = styled.div`
   min-width: 600px;
   background-color: #fff;
   border-radius: 20px 20px 0 0;
+  /* 모바일 세로 */
+  @media only all and (min-height: 1000px){
+    top: 26%;
+  }
+  /* 모바일 가로 & 테블릿 세로 */
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
+    1}px) {
+      min-width:400px;
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    min-width:auto;
+    width:95%;
+  }
 `;
 
 const ReviewTitle = styled.h2`
@@ -43,6 +63,10 @@ const UpData = styled.div`
   flex-direction: row;
   align-items: center;
   position : relative;
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    margin-bottom:30px;
+  }
 `;
 const Name = styled.p`
   font-size: 1.2em;
@@ -63,6 +87,10 @@ const Overview = styled.p``;
 const Date = styled.p`
   position : absolute;
   right : 0;
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    top:30px;
+  }
 `;
 const ReviewForm = styled.form`
   padding: 30px;
@@ -75,7 +103,7 @@ const ReviewForm = styled.form`
   }
 `;
 const ReviewBox = styled.div`
-  postion: relative;
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -96,6 +124,7 @@ const ReviewBox = styled.div`
     height: 40px;
     border: none;
     border-bottom: 1px solid #76c3f6;
+    padding:5px;
     &.title {
       width: 90%;
     }
@@ -127,6 +156,68 @@ const ReviewBox = styled.div`
     display: flex;
     width: 96%;
     justify-content: flex-end;   
+  }
+  /* 모바일 가로 & 테블릿 세로 */
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
+    1}px) {
+      flex-wrap : wrap;
+      .userStar {
+        margin : 10px 0;
+        display: flex;
+        align-items: center;
+      }
+      label {
+        margin-right: 5px;
+      }
+      input[type="radio"] {
+        margin: 0 8px 0 3px;
+      }
+      input[type="text"] {
+        &.title {
+          width: 89%;
+        }
+      }
+      textarea {
+        width:100%;
+        margin : 10px 0;
+      }
+      &.summitBtn {
+        width: 100%;
+      }
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    flex-wrap : wrap;
+    .userStar {
+      margin : 10px 0;
+      display: flex;
+      align-items: center;
+      flex-wrap : wrap;
+    }
+    label {
+      margin-right: 5px;
+  
+    }
+    .userStar label:first-child{
+      width:100%;
+      margin-bottom :10px;
+    }
+    input[type="radio"] {
+      margin: 0 5px 0 3px;
+    }
+    input[type="text"] {
+      &.title {
+        width: 89%;
+      }
+      margin : 10px 0;
+    }
+    textarea {
+      width:100%;
+      margin : 10px 0;
+    }
+    &.summitBtn {
+      width: 100%;
+    }
   }
 `;
 function Review( props : {onClick : ()=>void,}) {

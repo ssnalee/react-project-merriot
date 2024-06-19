@@ -6,6 +6,11 @@ import Review from "../Routes/Review";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
+const SIZE_PC = 1200;
+const SIZE_TABLET_H = 1024;
+const SIZE_TABLET_V = 768;
+const SIZE_MOBILE = 480;
+
 const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -34,6 +39,16 @@ const ModalBox = styled(motion.div)`
   @media only all and (min-height: 1000px){
     top: 26%;
   }
+  /* 모바일 가로 & 테블릿 세로 */
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
+    1}px) {
+      min-width:400px;
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    min-width:auto;
+    width:95%;
+  }
 `;
 const ModalRelative = styled.div`
   position: fixed;
@@ -42,7 +57,6 @@ const ModalRelative = styled.div`
   color: #899;
   z-index: 103;
   clear: both;
-  
   .closeModal {
     width: 30px;
     height: 30px;
@@ -55,6 +69,16 @@ const ModalRelative = styled.div`
     &:hover {
       color: #000;
     }
+  }
+  /* 모바일 가로 & 테블릿 세로 */
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
+    1}px) {
+      min-width:400px;
+  }
+  /* 모바일 세로 */
+  @media only all and (max-width: ${SIZE_MOBILE - 1}px) {
+    min-width:auto;
+    width:95%;
   }
 `;
 
