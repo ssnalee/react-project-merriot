@@ -30,12 +30,15 @@ new MongoClient(url)
     });
     //review 저장하기
     app.post("/post", async (req, res) => {
-      let result = req.body;
       // console.log("req", result);
       let date = new Date();
+      const utc = date.getTime()+ (date.getTimezoneOffset() * 60 * 1000);
+      const KR_TIME_DIFF = 9* 60 * 60 *1000;
+      const kr_date = new Date(utc + KR_TIME_DIFF);
+
       db.collection("post").insertOne({
         title: req.body.title,
-        date: date,
+        date: kr_date,
         overview: req.body.overview,
         star: req.body.star || 1,
         username: req.body.username,
