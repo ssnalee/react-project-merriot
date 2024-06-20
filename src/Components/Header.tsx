@@ -204,9 +204,9 @@ const mobileNavVariants = {
 };
 
 function Header() {
-  const homeMatch = useMatch("/");
-  const roomMatch = useMatch("/room");
-  const eventMatch = useMatch("/event");
+  const homeMatch = useMatch(`${process.env.PUBLIC_URL}/`);
+  const roomMatch = useMatch(`${process.env.PUBLIC_URL}/room`);
+  const eventMatch = useMatch(`${process.env.PUBLIC_URL}/event`);
   const navAnimation = useAnimation();
   const mobileAnimation = useAnimation();
   const navigate = useNavigate();
@@ -252,7 +252,7 @@ function Header() {
     if(num === 0){
       localStorage.removeItem('userId');
     }
-    navigate("/login");
+    navigate(`${process.env.PUBLIC_URL}/login`);
     setIsNavShow(false);
   }
 
@@ -269,19 +269,19 @@ function Header() {
           />
             </NavList>
             <NavList>
-              <Link to="/">
+              <Link to={`${process.env.PUBLIC_URL}/`}>
                 소개
                 {homeMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
             </NavList>
             <NavList>
-              <Link to="/room">
+              <Link to={`${process.env.PUBLIC_URL}/room`}>
                 객실 & 스위트
                 {roomMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
             </NavList>
             <NavList>
-              <Link to="/event">
+              <Link to={`${process.env.PUBLIC_URL}/event`}>
                 웨딩
                 {eventMatch ? <ListBar layoutId="listBar" /> : null}
               </Link>
@@ -338,19 +338,19 @@ function Header() {
           >
             <NavLists>
               <NavList>
-                <Link to="/">
+                <Link to={`${process.env.PUBLIC_URL}/`}>
                   소개
                   {homeMatch ? <ListBar /> : null}
                 </Link>
               </NavList>
               <NavList>
-                <Link to="/room">
+                <Link to={`${process.env.PUBLIC_URL}/room`}>
                   객실 & 스위트
                   {roomMatch ? <ListBar /> : null}
                 </Link>
               </NavList>
               <NavList>
-                <Link to="/event">
+                <Link to={`${process.env.PUBLIC_URL}/event`}>
                   웨딩
                   {eventMatch ? <ListBar /> : null}
                 </Link>

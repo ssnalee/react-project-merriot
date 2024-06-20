@@ -350,7 +350,7 @@ function Review(props: { onClick: () => void }) {
   //로그인가기 버튼 클릭시
   const goLogin = () => {
     props.onClick();
-    navigate("/login");
+    navigate(`${process.env.PUBLIC_URL}/login`);
   };
 
   //등록 버튼 클릭시

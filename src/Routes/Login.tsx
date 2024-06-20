@@ -403,7 +403,7 @@ function Login() {
     let result = await login(loginInfo);
     if (result.code === 1) {
       localStorage.setItem("userId", loginInfo.userId);
-      navigate("/");
+      navigate(`${process.env.PUBLIC_URL}/`);
     } else if (loginInfo.userId == "" || loginInfo.userPw == "") {
       alert("아이디와 비밀번호를 입력해주세요.");
     } else {
