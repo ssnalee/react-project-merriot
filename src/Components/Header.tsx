@@ -41,8 +41,7 @@ const Nav = styled(motion.nav)`
   }
   font-size: 1em;
   /* 테블릿 가로 */
-  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -
-    1}px) {
+  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -1}px) {
     padding: 10px 30px;
     font-size: 0.8em;
     img {
@@ -50,8 +49,7 @@ const Nav = styled(motion.nav)`
     }
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     font-size: 1em;
   }
   /* 모바일 세로 */
@@ -89,8 +87,7 @@ const NavLists = styled.ul`
   display: flex;
   align-items: center;
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     height: 100%;
     flex-direction: column;
     border-bottom: 1px solid #999;
@@ -113,13 +110,11 @@ const NavList = styled.li`
     color:#00e5ff;
   }
   /* 테블릿 가로 */
-  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -
-    1}px) {
+  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -1}px) {
     margin-right: 10px;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     margin-bottom: 15px;
   }
   /* 모바일 세로 */
@@ -154,8 +149,7 @@ const Review = styled.div`
     color:#00e5ff;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     height: 100px;
     margin: 0 auto;
   }

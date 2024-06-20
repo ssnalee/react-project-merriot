@@ -6,9 +6,9 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 
 const { MongoClient } = require("mongodb");
+const mongodb = require("mongodb");
 
 // app.use(express.static(path.join(__dirname + "/renual_meriott/build/")));
-let date = new Date();
 
 let db;
 const url =
@@ -32,6 +32,7 @@ new MongoClient(url)
     app.post("/post", async (req, res) => {
       let result = req.body;
       // console.log("req", result);
+      let date = new Date();
       db.collection("post").insertOne({
         title: req.body.title,
         date: date,
@@ -39,6 +40,20 @@ new MongoClient(url)
         star: req.body.star || 1,
         username: req.body.username,
       });
+    });
+     //review 삭제하기
+     app.delete("/delete", async (req, res) => {
+      //db.collection("post").findByIdAndDelete(req.body._id);
+      db.collection("post").deleteOne({
+        _id: new mongodb.ObjectId(req.body._id)
+      },function(err,result){
+        if(err){
+          res.status(400).send({isSuccess : false});
+        } else{
+          res.status(200).semd({isSuccess : true })
+        }
+     });
+
     });
 
     //아이디 중복체크
