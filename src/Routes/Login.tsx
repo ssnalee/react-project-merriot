@@ -379,7 +379,6 @@ function Login() {
   ) => {
     e.preventDefault();
     if (!pwPattern.test(myUserInfo.userPw)) {
-      console.log(myUserInfo.userPw);
       alert("영문,숫자,특수문자로 이루어진 6 ~ 16글자 이내로 입력해주세요.");
       setMyUserInfo({
         ...myUserInfo,

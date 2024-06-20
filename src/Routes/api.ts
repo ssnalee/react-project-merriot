@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_PATH = "";
+const BASE_PATH = "http://localhost:8080";
 export interface IReview {
   username: string;
   date: number;
@@ -17,30 +17,34 @@ export interface IUser {
   userPw: string;
 }
 export const getReviews = async (): Promise<IReviewList> => {
-  const response = await fetch(`http://localhost:8080/api`);
-  return response.json();
+  const response = await axios.get(`${BASE_PATH}/api`);
+  return response.data;
 };
 
 export const postReviews = async (value : object) => {
-  const response = await axios.post('http://localhost:8080/post',value);
-  console.log(response);
+  const response = await axios.post(`${BASE_PATH}/post`,value);
+  return response.data;
 };
+
+export const deleteReviews = async (value : string) => {
+  const response = await axios.delete(`${BASE_PATH}/delete`,{data:{ _id : value}});
+  return response.data;
+}
 
 export const idCheck = async (value : object) => {
   const headers = {"Content-Type":"application/json"};
-  const response = await axios.post('http://localhost:8080/idCheck',value,{headers:headers});
+  const response = await axios.post(`${BASE_PATH}/idCheck`,value,{headers:headers});
   return response.data;
 };
 
 export const login = async (value : object) => {
-  console.log(value);
   const headers = {"Content-Type":"application/json"};
-  const response = await axios.post(`http://localhost:8080/login`,value,{headers:headers});
+  const response = await axios.post(`${BASE_PATH}/login`,value,{headers:headers});
   return response.data;
 };
 
 export const postUserInfo = async (value : object) => {
-  const response = await axios.post('http://localhost:8080/postUserInfo',value);
-  console.log(response);
+  const response = await axios.post(`${BASE_PATH}/postUserInfo`,value);
+  return response.data;
 };
 

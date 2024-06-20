@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Slider from "../Common/Slider";
+import { RiFileWarningLine } from "react-icons/ri";
 
 const RoomWrap = styled.div`
   width: 100%;
@@ -9,6 +10,7 @@ const Title = styled.div`
   margin:150px auto 50px;
   width: 550px;
   padding-top:20px;
+  text-align: center;
   h2{
     font-weight: 700;
     font-size:2.2em;
@@ -17,7 +19,12 @@ const Title = styled.div`
     padding : 10px;
   }
   p{
+    text-align: center;
     padding : 10px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 const Tabs = styled.ul``;
@@ -82,9 +89,13 @@ function Room(){
     <RoomWrap>
       <Title>
         <h2>객실</h2>
-        <p>JW 메리어트 호텔 서울은 펜트하우스 2개와 스위트 32개를 포함하여 총 376개의 객실을 갖추고 있으며, 모든 객실과 스위트, 펜트하우스에서 눈부신 서울 도심 전망을 만끽하실 수 있습니다.<br /> <br />한국 전통의 느낌과 현대적인 감각이 우아한 조화를 이루는 인테리어와 넓은 침실과 욕실, 객실 창가에 놓인 아늑한 소파는 온전한 휴식과 숙면을 즐길 수 있는 완벽한 힐링의 시간을 선사합니다.<br /><br /> 호텔 최상층에 위치한 프레지덴셜 펜트하우스와 앰배서더 펜트하우스는 복층 구조로 설계되어 차원이 다른 서울 전망과 한강 뷰를 선사합니다.<br /> <br />전용 엘리베이터를 비롯해 유명 아티스트의 미술 작품과 세심한 안목으로 선별한 고급 장식품, 뱅앤올룹슨 프리미엄 사운드 시스템 등 최고급 어메니티로 채워진 펜트하우스에서 럭셔리 그 자체를 경험하실 수 있습니다.</p>
+    
+        <p ><RiFileWarningLine  size='100px'/>준비중인 페이지입니다.</p>
+    
+        {/* <p>JW 메리어트 호텔 서울은 펜트하우스 2개와 스위트 32개를 포함하여 총 376개의 객실을 갖추고 있으며, 모든 객실과 스위트, 펜트하우스에서 눈부신 서울 도심 전망을 만끽하실 수 있습니다.<br /> <br />한국 전통의 느낌과 현대적인 감각이 우아한 조화를 이루는 인테리어와 넓은 침실과 욕실, 객실 창가에 놓인 아늑한 소파는 온전한 휴식과 숙면을 즐길 수 있는 완벽한 힐링의 시간을 선사합니다.<br /><br /> 호텔 최상층에 위치한 프레지덴셜 펜트하우스와 앰배서더 펜트하우스는 복층 구조로 설계되어 차원이 다른 서울 전망과 한강 뷰를 선사합니다.<br /> <br />전용 엘리베이터를 비롯해 유명 아티스트의 미술 작품과 세심한 안목으로 선별한 고급 장식품, 뱅앤올룹슨 프리미엄 사운드 시스템 등 최고급 어메니티로 채워진 펜트하우스에서 럭셔리 그 자체를 경험하실 수 있습니다.</p>
+         */}
       </Title>
-      <Tabs>
+      {/* <Tabs>
         {rooms.map((room)=>(<Tab>{room.roomName}</Tab>))}
       </Tabs>
       <ImageSliders>
@@ -92,12 +103,12 @@ function Room(){
           <ImageSlider key={i}>
             <h4>{r.roomName}</h4>
                 <Slider roomImages ={r.roomImages}></Slider>
-          {/* {rooms[i].roomImages.map((d)=>(
+          {rooms[i].roomImages.map((d)=>(
             <SliderLi> <Image src={process.env.PUBLIC_URL+'/image/room/'+d}></Image></SliderLi> 
-          ))} */}
+          ))}
          </ImageSlider>
         ))}
-      </ImageSliders>
+      </ImageSliders> */}
       
     </RoomWrap>
   );

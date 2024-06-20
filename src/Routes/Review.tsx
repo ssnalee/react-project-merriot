@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IReviewList, getReviews, postReviews } from "./api";
+import { IReview, IReviewList, deleteReviews, getReviews, postReviews } from "./api";
 import ReactStars from "react-stars";
 import { useQuery } from "react-query";
 import { MdOutlineRateReview } from "react-icons/md";
@@ -14,7 +14,7 @@ const SIZE_MOBILE = 480;
 
 const ReviewModal = styled.div`
   padding: 0;
-  font-family: "Gowun Dodum",serif;
+  font-family: "Gowun Dodum", serif;
 `;
 const TitlePos = styled.div`
   position: fixed;
@@ -29,8 +29,7 @@ const TitlePos = styled.div`
     top: 26%;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     min-width: 400px;
   }
   /* 모바일 세로 */
@@ -114,7 +113,8 @@ const Pagination = styled.div`
     font-weight: 700;
     border-radius: 8px;
     cursor: pointer;
-    font-family: "Gowun Dodum",serif;
+    font-family: "Gowun Dodum", serif;
+    transition: all 0.5s;
     &:hover,
     &.active {
       background-color: #0d5ff5;
@@ -188,8 +188,7 @@ const ReviewBox = styled.div`
     justify-content: flex-end;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -
-    1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
     flex-wrap: wrap;
     .userStar {
       margin: 10px 0;
@@ -254,11 +253,11 @@ const NoLoginBox = styled.div`
   text-align: center;
   margin: 20px auto;
   p {
-    display :flex;
-    align-items : center;
-    width:240px;
+    display: flex;
+    align-items: center;
+    width: 240px;
     margin: 20px auto;
-    padding-bottom:5px;
+    padding-bottom: 5px;
     border-bottom: 3px dotted #bed5ff;
   }
   button {
@@ -273,8 +272,23 @@ const NoLoginBox = styled.div`
 
 function Review(props: { onClick: () => void }) {
   const navigate = useNavigate();
-  let { data: reviewList, isLoading } =
-    useQuery<IReviewList>("reviewList", getReviews) ?? [];
+  const [isFetch,setIsFetch] = useState(false);
+
+  //getReviews api 호출
+  let { data: reviewList , refetch} =
+    useQuery<IReviewList>({
+      queryKey : "reviewList", 
+      queryFn :getReviews,
+    }) ?? [];
+  if (reviewList !== undefined) {
+    reviewList.list.sort((a: IReview, b: IReview) => {
+      return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
+    });
+  }
+  useEffect(()=>{
+    refetch();
+    setIsFetch(false);
+  },[isFetch]);
   const [myValue, setMyValue] = useState({
     title: "",
     date: "",
@@ -288,6 +302,7 @@ function Review(props: { onClick: () => void }) {
   let postsPerPage = 3; //한 페이지에 보여줄 게시글 갯수
   let totalPages = 0;
 
+  // totalpage
   if (reviewList !== undefined) {
     totalPages = Math.ceil(reviewList?.list.length / postsPerPage);
   }
@@ -295,8 +310,7 @@ function Review(props: { onClick: () => void }) {
   for (let i = 1; i <= totalPages; i++) {
     numArr.push(i);
   }
-  console.log(numArr);
-
+  //페이지네이션
   const displayedPosts = () => {
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
@@ -307,6 +321,12 @@ function Review(props: { onClick: () => void }) {
   //Login 여부 확인
   if (localStorage.getItem("userId")) isLogin = true;
   else isLogin = false;
+  //리뷰삭제 클릭시
+  const handleDelete = (id : string) => {
+    deleteReviews(id);
+    setIsFetch(true);
+    alert('삭제되었습니다.');
+  }
 
   //리뷰 input 내용 입력 시
   const handleChange = (
@@ -353,6 +373,7 @@ function Review(props: { onClick: () => void }) {
     if (isWriteAll) {
       postReviews(myValue);
       alert("리뷰를 등록했습니다.");
+      setIsFetch(true);
       props.onClick();
     }
   };
@@ -384,13 +405,18 @@ function Review(props: { onClick: () => void }) {
                   />
                   <span className="starValue">({review.star}점)</span>
                 </Star>
-                <Date>{review.date.replaceAll("-", ".").slice(0, 10)}</Date>
+                <Date>{review.date.replaceAll("-", ".").slice(0, 10)}
+                  {review.username === myValue.username && 
+                    <button onClick={()=>handleDelete(review._id)}>삭제</button>
+                  }
+                </Date>
               </UpData>
               <Title>{review.title}</Title>
             </Up>
             <Overview>{review.overview}</Overview>
           </Li>
         ))}
+
       </Ul>
       <Pagination>
         <p>{`${currentPage} / ${totalPages}`}</p>
@@ -424,7 +450,10 @@ function Review(props: { onClick: () => void }) {
       </Pagination>
       {!isLogin && (
         <NoLoginBox>
-          <p><MdOutlineRateReview size="25px"/>로그인하고 리뷰를 작성하세요.</p>
+          <p>
+            <MdOutlineRateReview size="25px" />
+            로그인하고 리뷰를 작성하세요.
+          </p>
           <button onClick={goLogin}>로그인 하러가기</button>
         </NoLoginBox>
       )}
