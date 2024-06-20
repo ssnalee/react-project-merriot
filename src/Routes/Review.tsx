@@ -325,6 +325,7 @@ function Review(props: { onClick: () => void }) {
   const handleDelete = (id : string) => {
     deleteReviews(id);
     setIsFetch(true);
+    alert('삭제되었습니다.');
   }
 
   //리뷰 input 내용 입력 시
