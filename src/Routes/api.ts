@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_PATH = "http://localhost:8080";
+const BASE_PATH = "http://59.9.169.119:8080";
+// const BASE_PATH = "http://localhost:8080";
 export interface IReview {
   username: string;
   date: number;
