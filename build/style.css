@@ -1,0 +1,15 @@
+/* slice slider custom */
+.slick-prev:before,
+.slick-next:before {
+  color: #f76868 !important;
+  font-size: 25px !important;
+}
+.slick-arrow.slick-prev {
+  left: -30px !important;
+}
+.slick-dots li button:before {
+  font-size: 10px !important;
+}
+.carousel.cusotom .slick-list {margin: 0 -5px;}
+.carousel.cusotom .slick-slide>div {padding: 0 5px;}
+
