@@ -338,7 +338,7 @@ function Review(props: { onClick: () => void }) {
       [keyValue]: e.target.value,
     });
   };
-
+  
   //라디오버튼 클릭시
   const radioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMyValue({
@@ -357,7 +357,7 @@ function Review(props: { onClick: () => void }) {
   const handlePost = () => {
     if (myValue.username == "") {
       setIsWriteAll(false);
-      alert("이름을 입력해주세요");
+      alert("이름을 입력해주세요");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     } else if (myValue.title == "") {
       setIsWriteAll(false);
       alert("제목을 입력해주세요");
