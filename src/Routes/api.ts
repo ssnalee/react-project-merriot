@@ -17,7 +17,6 @@ export interface IUser {
   userPw: string;
 }
 
-console.log('BASE_PATH',BASE_PATH);
 export const getReviews = async (): Promise<IReviewList> => {
   const response = await axios.get(`${BASE_PATH}/api`);
   return response.data;

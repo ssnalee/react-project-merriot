@@ -97,7 +97,7 @@ new MongoClient(url)
             userPw: userPw,
           });
         } catch {
-          console.log("err: " + err);
+          console.error("err: " + err);
         }
       });
     });
