@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE_PATH = "http://59.9.169.119:8080";
-// const BASE_PATH = "http://localhost:8080";
+const BASE_PATH = process.env.REACT_APP_API_URL;
 export interface IReview {
   username: string;
   date: number;
@@ -17,6 +16,8 @@ export interface IUser {
   userId: string;
   userPw: string;
 }
+
+console.log('BASE_PATH',BASE_PATH);
 export const getReviews = async (): Promise<IReviewList> => {
   const response = await axios.get(`${BASE_PATH}/api`);
   return response.data;
