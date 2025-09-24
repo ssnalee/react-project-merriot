@@ -3,13 +3,13 @@ const app = express();
 const server = require("http").createServer(app);
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-
 const { MongoClient } = require("mongodb");
 const mongodb = require("mongodb");
-
+require('dotenv').config();
+const url = process.env.DB_URL;
 
 let db;
-const url = process.env.DB_URL;
+
 new MongoClient(url)
   .connect()
   .then((client) => {
