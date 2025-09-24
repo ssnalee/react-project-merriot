@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import ReactStars from "react-stars";
 import Modal from "./Modal";
-import { getReviews, IReviewList } from "./../Routes/api";
+import { getReviews, IReviewList } from "../Routes/api";
 import { useMediaQuery } from "react-responsive";
 import { MdOutlineClose } from "react-icons/md";
 import { TfiMenuAlt } from "react-icons/tfi";

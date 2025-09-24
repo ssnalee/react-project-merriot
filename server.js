@@ -1,6 +1,5 @@
-const express = require("express"); //express 라이브러리 사용하겠다. express 문법사용
+const express = require("express"); 
 const app = express();
-// const path = require("path");
 const server = require("http").createServer(app);
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -8,11 +7,9 @@ const bcrypt = require("bcrypt");
 const { MongoClient } = require("mongodb");
 const mongodb = require("mongodb");
 
-// app.use(express.static(path.join(__dirname + "/renual_meriott/build/")));
 
 let db;
-const url =
-  "mongodb+srv://97poolbbang:8cnxa7oAcl92rTjo@ssnalee.0yha3pm.mongodb.net/?retryWrites=true&w=majority&appName=ssnalee";
+const url = process.env.DB_URL;
 new MongoClient(url)
   .connect()
   .then((client) => {
@@ -108,16 +105,10 @@ new MongoClient(url)
     //
   })
   .catch((err) => {
-    console.log("err", err);
+    console.error("err", err);
   });
 
-// //간단한 서버기능. 누가 메인페이지 접속시 이거보내줘.
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname + "/renual_meriott/build/index.html"));
-// });
 
-// 서버가 잘 동작하고 있는지 확인
-
-server.listen(8080, () => {
-  console.log("server is running on 8080");
+server.listen(process.env.PORT || 8080, () => {
+  console.log(`동작 중 : ${process.env.PORT || 8080}`);
 });
