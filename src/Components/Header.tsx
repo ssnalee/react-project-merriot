@@ -25,6 +25,41 @@ const SIZE_MOBILE = 480;
 interface HeaderProps {
   isNavShow: boolean;
 }
+
+const Loading = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 99999;
+  background-color: #ffffff92;
+  width: 90%;
+  max-width: 500px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
+  backdrop-filter: blur(8px);
+  p {
+    margin: 5px 0;
+    &:first-child::after {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    text-align: left;
+    animation: dots 1.5s steps(3, end) infinite;
+    }
+  }
+  @keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+  }
+`;
 const Nav = styled(motion.nav)`
   position: fixed;
   display: flex;
@@ -41,7 +76,7 @@ const Nav = styled(motion.nav)`
   }
   font-size: 1em;
   /* 테블릿 가로 */
-  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -1}px) {
+  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H - 1}px) {
     padding: 10px 30px;
     font-size: 0.8em;
     img {
@@ -49,7 +84,7 @@ const Nav = styled(motion.nav)`
     }
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V - 1}px) {
     font-size: 1em;
   }
   /* 모바일 세로 */
@@ -71,7 +106,7 @@ const NavBtn = styled.button`
   border: none;
   z-index: 999;
 `;
-const MobileNav = styled(motion.nav)<HeaderProps>`
+const MobileNav = styled(motion.nav) <HeaderProps>`
   position: fixed;
   z-index: 100;
   display: flex;
@@ -87,7 +122,7 @@ const NavLists = styled.ul`
   display: flex;
   align-items: center;
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V - 1}px) {
     height: 100%;
     flex-direction: column;
     border-bottom: 1px solid #999;
@@ -110,11 +145,11 @@ const NavList = styled.li`
     color:#00e5ff;
   }
   /* 테블릿 가로 */
-  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H -1}px) {
+  @media only all and (min-width: ${SIZE_TABLET_V}px) and (max-width: ${SIZE_TABLET_H - 1}px) {
     margin-right: 10px;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V - 1}px) {
     margin-bottom: 15px;
   }
   /* 모바일 세로 */
@@ -149,7 +184,7 @@ const Review = styled.div`
     color:#00e5ff;
   }
   /* 모바일 가로 & 테블릿 세로 */
-  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V -1}px) {
+  @media only all and (min-width: ${SIZE_MOBILE}px) and (max-width: ${SIZE_TABLET_V - 1}px) {
     height: 100px;
     margin: 0 auto;
   }
@@ -224,12 +259,12 @@ function Header() {
   const isMobile = useMediaQuery({
     query: `(max-width:${SIZE_TABLET_V - 1}px)`,
   });
-  if(localStorage.getItem('userId')) isLogin = true;
+  if (localStorage.getItem('userId')) isLogin = true;
   else isLogin = false;
-  
+
   const [isNavShow, setIsNavShow] = useState(false);
   useEffect(() => {
-    if (isNavShow == true) {
+    if (isNavShow === true) {
       mobileAnimation.start("open");
     } else {
       mobileAnimation.start("close");
@@ -248,8 +283,8 @@ function Header() {
     setIsModal(true);
     setIsNavShow(false);
   };
-  const goLogin = (num : number) => {
-    if(num === 0){
+  const goLogin = (num: number) => {
+    if (num === 0) {
       localStorage.removeItem('userId');
     }
     navigate("/login");
@@ -258,15 +293,21 @@ function Header() {
 
   return (
     <>
-      {isLoading && <p>loading...</p>}
-      {isPC && isLoading == false && (
+    {
+       isLoading &&
+       <Loading>
+         <p>데이터를 불러오는 중이에요</p>
+         <p>무료 API 서버를 사용하고 있어 잠시 시간이 걸릴 수 있어요.</p>
+       </Loading>
+    }
+      {isPC && isLoading === false && (
         <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
           <NavLists>
             <NavList>
-            <img
-            src={process.env.PUBLIC_URL + "/image/logo.webp"}
-            alt="fairfield by merriott"
-          />
+              <img
+                src={process.env.PUBLIC_URL + "/image/logo.webp"}
+                alt="fairfield by merriott"
+              />
             </NavList>
             <NavList>
               <Link to="/">
@@ -299,24 +340,24 @@ function Header() {
               className="rating"
             />
             <span className="ratingValue">
-            ({voteValue}점)
+              ({voteValue}점)
             </span>
             <span className="reviewBtn" onClick={reviewClick}>리뷰 보러가기</span>
-            <PiCursorClickLight size={20}/>
+            <PiCursorClickLight size={20} />
             {isModal ? (
               <AnimatePresence>
-                <Modal title="review" setIsModal={setIsModal} isModal={isModal}/>
+                <Modal title="review" setIsModal={setIsModal} isModal={isModal} />
               </AnimatePresence>
             ) : null}
             <LoginBox>
-            { isLogin ? (<p onClick={()=>goLogin(0)}>로그아웃</p>) : (<p onClick={()=>goLogin(1)}>로그인</p>)}
+              {isLogin ? (<p onClick={() => goLogin(0)}>로그아웃</p>) : (<p onClick={() => goLogin(1)}>로그인</p>)}
             </LoginBox>
           </Review>
 
         </Nav>
       )}
 
-      {isMobile && isLoading == false && (
+      {isMobile && isLoading === false && (
         <>
           <Logo
             src={process.env.PUBLIC_URL + "/image/logo_W.png"}
@@ -377,7 +418,7 @@ function Header() {
               ) : null}
             </Review>
             <LoginBox className="mobile">
-            { isLogin ? (<p onClick={()=>goLogin(0)}>로그아웃</p>) : (<p onClick={()=>goLogin(1)}>로그인</p>)}
+              {isLogin ? (<p onClick={() => goLogin(0)}>로그아웃</p>) : (<p onClick={() => goLogin(1)}>로그인</p>)}
             </LoginBox>
           </MobileNav>
         </>
